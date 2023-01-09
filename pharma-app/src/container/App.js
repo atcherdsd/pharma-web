@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import RestorePassword from '../component/RestorePassword';
+import ResetPassword from '../component/ResetPassword';
 import Dashboard from './Dashboard';
 import { Login } from '../component/Login';
 import CreateContext from '../component/dashboard/CreateContext';
@@ -13,6 +14,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="restore-password" element={<RestorePassword />} />
+      <Route path="reset-password" element={<ResetPassword />} />
       <Route path="dashboard" element={<Dashboard />}>
         <Route path="add-context" element={<CreateContext />} />
         <Route path="add-customer" element={<CreateCustomer />} />
