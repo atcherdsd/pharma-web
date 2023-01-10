@@ -21,7 +21,6 @@ export default class RequestAPI {
     }
   }
   static async reqToResetPassword(body) {
-    console.log(body);
     const res = await fetch(`${baseURL}/auth/reset-password`, {
       method: 'POST',
       headers: {
@@ -39,5 +38,15 @@ export default class RequestAPI {
       let errorData = await res.json();
       return errorData;
     }
+  }
+  static async reqToLogin(body) {
+    const res = await fetch(`${baseURL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(body),
+    });
+    return await res.json();
   }
 }
