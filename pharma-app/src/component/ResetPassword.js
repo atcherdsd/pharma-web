@@ -26,9 +26,13 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const theme = createTheme();
 
-export default function RestorePassword() {
+export default function ResetPassword() {
+  const token = location.search ? location.search.split('=')[1] : null;
   const navigate = useNavigate();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState({
+    content: '',
+    body: { password: '', resetPasswordToken: token },
+  });
   const [open, setOpen] = useState(false);
   const [checkPassword, setCheckPassword] = useState(true);
   // const { setAlert } = useAlert();
@@ -51,16 +55,14 @@ export default function RestorePassword() {
     const confirmPassword = data.get('confirm-password');
     if (password === confirmPassword) {
       setCheckPassword(true);
-      setPassword(password);
+      setPassword({
+        content: password,
+        body: { password: password, resetPasswordToken: token },
+      });
     } else {
       setCheckPassword(false);
-      setAlert('Edit success!', 'success');
     }
     setOpen(true);
-    console.log({
-      password: password,
-      confirmPassword: confirmPassword,
-    });
   };
 
   // handler for open/close Snackbar window
@@ -135,7 +137,7 @@ export default function RestorePassword() {
           {isError && (
             <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
               <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
-                Error
+                {reqData}
               </Alert>
             </Snackbar>
           )}

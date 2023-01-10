@@ -39,9 +39,6 @@ export default function RestorePassword() {
     const email = data.get('email');
     setEmail({ content: email, body: { email: email } });
     setOpen(true);
-    console.log({
-      email: data.get('email'),
-    });
   };
 
   // handler for open/close Snackbar window

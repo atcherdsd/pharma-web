@@ -20,4 +20,24 @@ export default class RequestAPI {
       return errorData;
     }
   }
+  static async reqToResetPassword(body) {
+    console.log(body);
+    const res = await fetch(`${baseURL}/auth/reset-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) {
+      let successData = await res.json();
+      return {
+        ...successData,
+        message: 'Password successfully changed',
+      };
+    } else {
+      let errorData = await res.json();
+      return errorData;
+    }
+  }
 }

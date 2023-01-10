@@ -4,5 +4,7 @@ export default function requestSwitch(body, type) {
   switch (type) {
     case 'restorePassword':
       return RequestAPI.reqToForgotPassword(body);
+    case 'resetPassword':
+      return RequestAPI.reqToResetPassword(body);
   }
 }
