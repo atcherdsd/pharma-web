@@ -16,7 +16,9 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import useFetchReducer from '../helpers/FetchReducer';
+import useFetchReducer from '../hooks/FetchReducer';
+// import useAlert from '../hooks/useAlert';
+// import AlertPopup from './AlertPopup';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,6 +31,7 @@ export default function RestorePassword() {
   const [password, setPassword] = useState('');
   const [open, setOpen] = useState(false);
   const [checkPassword, setCheckPassword] = useState(true);
+  // const { setAlert } = useAlert();
   // Reducer for request logic
 
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
@@ -51,6 +54,7 @@ export default function RestorePassword() {
       setPassword(password);
     } else {
       setCheckPassword(false);
+      setAlert('Edit success!', 'success');
     }
     setOpen(true);
     console.log({

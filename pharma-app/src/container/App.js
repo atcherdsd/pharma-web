@@ -8,7 +8,7 @@ import CreateCustomer from '../component/dashboard/CreateCustomer';
 import NftCreation from '../component/dashboard/NftCreation';
 import NftSelling from '../component/dashboard/NftSelling';
 import NftBurning from '../component/dashboard/NftBurning';
-
+// import AlertPopup from '../component/AlertPopup';
 export default function App() {
   return (
     <Routes>
