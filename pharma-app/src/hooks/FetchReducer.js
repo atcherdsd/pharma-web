@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from 'react';
+import requestSwitch from '../component/helpers/RequestSwitch';
 
 const initialState = {
   isSuccsessReq: false,
@@ -42,7 +43,7 @@ function dataFetchReducer(state, action) {
   }
 }
 
-export default function useFetchReducer(reqData, type) {
+export default function useFetchReducer(dataForBody, type) {
   const [state, dispatch] = useReducer(dataFetchReducer, initialState);
   useEffect(() => {
     const fetchData = async () => {
@@ -52,35 +53,24 @@ export default function useFetchReducer(reqData, type) {
           data: '',
         },
       });
-      const res = await fetch(`https://api.github.com/users/${reqData}`);
-      if (res.status === 200) {
-        //Need for response from server
-        // const resData = await res.json();
+      const res = await requestSwitch(dataForBody.body, type);
+      if (res.success) {
         dispatch({
           type: actionKind.FETCH_SUCCESS,
           payload: {
-            data: switchSuccessRes(type),
+            data: res.data || res.message,
           },
         });
       } else {
         dispatch({
           type: actionKind.FETCH_FAILURE,
           payload: {
-            data: '',
+            data: res.message,
           },
         });
       }
     };
-    if (reqData) fetchData();
-  }, [reqData, type]);
+    if (dataForBody.content) fetchData();
+  }, [dataForBody.content, type]);
   return state;
-}
-
-function switchSuccessRes(type) {
-  switch (type) {
-    case 'restorePassword':
-      return 'Restore email successfully sent! Please, check your email.';
-    case 'resetPassword':
-      return 'Password successfully changed';
-  }
 }

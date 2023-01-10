@@ -24,7 +24,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const theme = createTheme();
 
 export default function RestorePassword() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState({ content: '', body: { email: '' } });
   const [open, setOpen] = useState(false);
 
   // Reducer for request logic
@@ -37,7 +37,7 @@ export default function RestorePassword() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
-    setEmail(email);
+    setEmail({ content: email, body: { email: email } });
     setOpen(true);
     console.log({
       email: data.get('email'),
@@ -102,7 +102,7 @@ export default function RestorePassword() {
           {isError && (
             <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
               <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
-                Error
+                {reqData}
               </Alert>
             </Snackbar>
           )}
