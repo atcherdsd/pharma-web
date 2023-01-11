@@ -31,10 +31,11 @@ export const Login = () => {
 
   useEffect(() => {
     if (typeof reqData !== 'string') {
-      navigate('/dashboard');
+      navigate('/dashboard/add-context');
       const { access, refresh } = reqData.tokens;
       localStorage.setItem('token', access.token);
       localStorage.setItem('refreshToken', refresh.token);
+      localStorage.setItem('expires', refresh.expires);
     }
   }, [isSuccsessReq, navigate]);
 
