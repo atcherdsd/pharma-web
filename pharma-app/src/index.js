@@ -6,11 +6,11 @@ import { AlertProvider } from './contexts/AlertContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AlertProvider>
-    <React.StrictMode>
+  <React.StrictMode>
+    <AlertProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </React.StrictMode>
-  </AlertProvider>
+    </AlertProvider>
+  </React.StrictMode>
 );

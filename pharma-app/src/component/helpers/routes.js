@@ -1,4 +1,5 @@
 import Dashboard from '../../container/Dashboard';
+import AlertPopup from '../AlertPopup';
 import { Login } from '../Login';
 import ResetPassword from '../ResetPassword';
 import RestorePassword from '../RestorePassword';
@@ -23,15 +24,30 @@ const routes = {
   public: [
     {
       path: '/',
-      element: <Login />,
+      element: (
+        <>
+          <AlertPopup />
+          <Login />
+        </>
+      ),
     },
     {
       path: paths.restorePassword,
-      element: <RestorePassword />,
+      element: (
+        <>
+          <AlertPopup />
+          <RestorePassword />
+        </>
+      ),
     },
     {
       path: paths.resetPassword,
-      element: <ResetPassword />,
+      element: (
+        <>
+          <AlertPopup />
+          <ResetPassword />
+        </>
+      ),
     },
   ],
   rootPrivate: {
