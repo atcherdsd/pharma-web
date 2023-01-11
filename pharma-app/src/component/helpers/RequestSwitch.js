@@ -1,4 +1,4 @@
-import RequestAPI from '../../services/requestAPI';
+import RequestAPI from '../../services/auth.api.service';
 
 export default function requestSwitch(body, type) {
   switch (type) {

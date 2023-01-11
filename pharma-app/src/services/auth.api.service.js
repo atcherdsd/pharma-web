@@ -1,4 +1,4 @@
-const baseURL = 'http://134.0.115.216/v1';
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 export default class RequestAPI {
   static async reqToForgotPassword(body) {
