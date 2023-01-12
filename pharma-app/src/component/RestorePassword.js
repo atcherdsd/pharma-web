@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -16,14 +16,11 @@ const theme = createTheme();
 
 export default function RestorePassword() {
   const [email, setEmail] = useState({ content: '', body: { email: '' } });
-  const { setAlert, setOpen } = useAlert();
+  const { setOpen } = useAlert();
 
   // Reducer for request logic
 
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
-    email,
-    enumReqType.restorePassword
-  );
+  const { isFetching } = useFetchReducer(email, enumReqType.restorePassword);
 
   // handler for request
 
@@ -37,10 +34,10 @@ export default function RestorePassword() {
     }, 1000);
   };
 
-  useEffect(() => {
-    if (isSuccsessReq) setAlert(reqData, 'success');
-    else if (isError) setAlert(reqData, 'error');
-  }, [isError, isSuccsessReq, reqData, setAlert]);
+  // useEffect(() => {
+  //   if (isSuccsessReq) setAlert(reqData, 'success');
+  //   // else if (isError) setAlert(reqData, 'error');
+  // }, [isError, isSuccsessReq, reqData, setAlert]);
 
   return (
     <ThemeProvider theme={theme}>

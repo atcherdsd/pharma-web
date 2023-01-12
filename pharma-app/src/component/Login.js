@@ -20,12 +20,9 @@ const theme = createTheme();
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { setAlert, setOpen } = useAlert();
+  const { setOpen } = useAlert();
   const [formData, setFormData] = useState({ content: '', body: { email: '', password: '' } });
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
-    formData,
-    enumReqType.login
-  );
+  const { isSuccsessReq, reqData, isFetching } = useFetchReducer(formData, enumReqType.login);
 
   useEffect(() => {
     if (typeof reqData !== 'string') {
@@ -51,10 +48,10 @@ export const Login = () => {
     }, 1000);
   };
 
-  useEffect(() => {
-    if (isError) setAlert(reqData, 'error');
-    else if (isSuccsessReq) setAlert('You are successfully logged in', 'success');
-  }, [isError, isSuccsessReq, reqData, setAlert]);
+  // useEffect(() => {
+  //   if (isError) setAlert(reqData, 'error');
+  //   else if (isSuccsessReq) setAlert('You are successfully logged in', 'success');
+  // }, [isError, isSuccsessReq, reqData, setAlert]);
 
   return (
     <ThemeProvider theme={theme}>
