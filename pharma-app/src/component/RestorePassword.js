@@ -1,32 +1,22 @@
-import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
-// import Link from "@mui/material/Link";
-// import Grid from "@mui/material/Grid";
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
 import { enumReqType } from '../helpers/EnumReqType';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import useAlert from '../hooks/useAlert';
 
 const theme = createTheme();
 
 export default function RestorePassword() {
   const [email, setEmail] = useState({ content: '', body: { email: '' } });
-  const [open, setOpen] = useState(false);
+  const { setAlert, setOpen } = useAlert();
 
   // Reducer for request logic
 
@@ -42,17 +32,15 @@ export default function RestorePassword() {
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     setEmail({ content: email, body: { email: email } });
-    setOpen(true);
+    setTimeout(() => {
+      setOpen(true);
+    }, 1000);
   };
 
-  // handler for open/close Snackbar window
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  useEffect(() => {
+    if (isSuccsessReq) setAlert(reqData, 'success');
+    else if (isError) setAlert(reqData, 'error');
+  }, [isError, isSuccsessReq, reqData, setAlert]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -93,20 +81,6 @@ export default function RestorePassword() {
               Restore password
             </Button>
           </Box>
-          {isSuccsessReq && (
-            <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
-              <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-                {reqData}
-              </Alert>
-            </Snackbar>
-          )}
-          {isError && (
-            <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
-              <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
-                {reqData}
-              </Alert>
-            </Snackbar>
-          )}
         </Box>
       </Container>
     </ThemeProvider>

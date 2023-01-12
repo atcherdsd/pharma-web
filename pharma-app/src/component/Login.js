@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -13,20 +12,15 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
 import { enumReqType } from '../helpers/EnumReqType';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+import useAlert from '../hooks/useAlert';
 
 const theme = createTheme();
 
 export const Login = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const { setAlert, setOpen } = useAlert();
   const [formData, setFormData] = useState({ content: '', body: { email: '', password: '' } });
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
     formData,
@@ -35,10 +29,11 @@ export const Login = () => {
 
   useEffect(() => {
     if (typeof reqData !== 'string') {
-      navigate('/dashboard');
+      navigate('/dashboard/add-context');
       const { access, refresh } = reqData.tokens;
       localStorage.setItem('token', access.token);
       localStorage.setItem('refreshToken', refresh.token);
+      localStorage.setItem('expires', refresh.expires);
     }
   }, [isSuccsessReq, navigate]);
 
@@ -51,14 +46,16 @@ export const Login = () => {
       content: `${String(email)}${password}`,
       body: { email: email, password: password },
     });
-    setOpen(true);
+    setTimeout(() => {
+      setOpen(true);
+    }, 1000);
   };
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+
+  useEffect(() => {
+    if (isError) setAlert(reqData, 'error');
+    else if (isSuccsessReq) setAlert('You are successfully logged in', 'success');
+  }, [isError, isSuccsessReq, reqData, setAlert]);
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -115,13 +112,6 @@ export const Login = () => {
               </Grid>
             </Grid>
           </Box>
-          {isError && (
-            <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
-              <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
-                {reqData}
-              </Alert>
-            </Snackbar>
-          )}
         </Box>
       </Container>
     </ThemeProvider>

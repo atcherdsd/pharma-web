@@ -1,6 +1,5 @@
 import { createContext, useState } from 'react';
 
-const ALERT_TIME = 5000;
 const initialState = {
   text: '',
   type: '',
@@ -14,15 +13,11 @@ const AlertContext = createContext({
 export const AlertProvider = ({ children }) => {
   const [text, setText] = useState('');
   const [type, setType] = useState('');
+  const [open, setOpen] = useState(true);
 
   const setAlert = (text, type) => {
     setText(text);
     setType(type);
-
-    setTimeout(() => {
-      setText('');
-      setType('');
-    }, ALERT_TIME);
   };
 
   return (
@@ -31,6 +26,8 @@ export const AlertProvider = ({ children }) => {
         text,
         type,
         setAlert,
+        open,
+        setOpen,
       }}
     >
       {children}
