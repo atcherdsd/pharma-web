@@ -1,56 +1,68 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import useFetchReducer from '../hooks/FetchReducer';
 import useAlert from '../hooks/useAlert';
 
 const theme = createTheme();
 
-export const Login = () => {
+export default function ResetPassword() {
+  const accessToken = location.search ? location.search.split('=')[1] : null;
   const navigate = useNavigate();
+  const [password, setPassword] = useState({
+    content: '',
+    body: { password: '', resetPasswordToken: accessToken },
+  });
   const { setAlert, setOpen } = useAlert();
-  const [formData, setFormData] = useState({ content: '', body: { email: '', password: '' } });
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(formData, 'login');
+  const [checkPassword, setCheckPassword] = useState(true);
+  // Reducer for request logic
 
-  useEffect(() => {
-    if (typeof reqData !== 'string') {
-      navigate('/dashboard/add-context');
-      const { access, refresh } = reqData.tokens;
-      localStorage.setItem('token', access.token);
-      localStorage.setItem('refreshToken', refresh.token);
-      localStorage.setItem('expires', refresh.expires);
-    }
-  }, [isSuccsessReq, navigate]);
+  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
+    password,
+    'resetPassword'
+  );
+
+  // handler for request
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = data.get('email');
     const password = data.get('password');
-    setFormData({
-      content: `${String(email)}${password}`,
-      body: { email: email, password: password },
-    });
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
+    const confirmPassword = data.get('confirm-password');
+    if (password === confirmPassword) {
+      setCheckPassword(true);
+      setPassword({
+        content: password,
+        body: { password: password, resetPasswordToken: accessToken },
+      });
+      setTimeout(() => {
+        setOpen(true);
+      }, 1000);
+    } else if (password !== confirmPassword) {
+      setCheckPassword(false);
+    } else {
+      setTimeout(() => {
+        setOpen(true);
+      }, 1000);
+    }
   };
 
   useEffect(() => {
-    if (isError) setAlert(reqData, 'error');
-    else if (isSuccsessReq) setAlert('You are successfully logged in', 'success');
-  }, [isError, isSuccsessReq, reqData, setAlert]);
+    if (isSuccsessReq) {
+      setAlert(reqData, 'success');
+      navigate('/');
+    } else if (isError) {
+      setAlert(reqData, 'error');
+    }
+  }, [isError, isSuccsessReq, navigate, reqData, setAlert]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -68,28 +80,32 @@ export const Login = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Login
+            Save new password
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate={false} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              error={checkPassword ? false : true}
+              helperText={checkPassword ? '' : 'Passwords do not match'}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="password"
-              label="Password"
-              name="password"
+              name="confirm-password"
+              label="Confirm Password"
               type="password"
-              autoComplete="password"
+              id="confirm-password"
+              autoComplete="confirm-password"
+              error={checkPassword ? false : true}
+              helperText={checkPassword ? '' : 'Passwords do not match'}
             />
             <Button
               type="submit"
@@ -98,18 +114,11 @@ export const Login = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={isFetching ? true : false}
             >
-              Login
+              Save new password
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link component={NavLink} to="restore-password" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
   );
-};
+}
