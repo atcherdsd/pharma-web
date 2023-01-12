@@ -1,50 +1,34 @@
-import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
-// import Link from "@mui/material/Link";
-// import Grid from "@mui/material/Grid";
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
 import useAlert from '../hooks/useAlert';
-// import AlertPopup from './AlertPopup';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const theme = createTheme();
 
 export default function ResetPassword() {
-  const token = location.search ? location.search.split('=')[1] : null;
+  const accessToken = location.search ? location.search.split('=')[1] : null;
   const navigate = useNavigate();
   const [password, setPassword] = useState({
     content: '',
-    body: { password: '', resetPasswordToken: token },
+    body: { password: '', resetPasswordToken: accessToken },
   });
-  const [open, setOpen] = useState(false);
+  const { setAlert, setOpen } = useAlert();
   const [checkPassword, setCheckPassword] = useState(true);
-  const { setAlert } = useAlert();
   // Reducer for request logic
 
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
     password,
     'resetPassword'
   );
-  useEffect(() => {
-    if (isSuccsessReq) navigate('/');
-  }, [isSuccsessReq, navigate]);
 
   // handler for request
 
@@ -57,24 +41,24 @@ export default function ResetPassword() {
       setCheckPassword(true);
       setPassword({
         content: password,
-        body: { password: password, resetPasswordToken: token },
+        body: { password: password, resetPasswordToken: accessToken },
       });
-      setAlert(reqData, 'success');
     } else {
       setCheckPassword(false);
+    }
+    setTimeout(() => {
+      setOpen(true);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (isSuccsessReq) {
+      setAlert(reqData, 'success');
+      navigate('/');
+    } else if (isError) {
       setAlert(reqData, 'error');
     }
-    setOpen(true);
-  };
-
-  // handler for open/close Snackbar window
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
+  }, [isError, isSuccsessReq, navigate, reqData, setAlert]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -129,20 +113,6 @@ export default function ResetPassword() {
               Save new password
             </Button>
           </Box>
-          {isSuccsessReq && (
-            <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
-              <Alert severity="success" sx={{ width: '100%' }} onClose={handleClose}>
-                {reqData}
-              </Alert>
-            </Snackbar>
-          )}
-          {isError && (
-            <Snackbar autoHideDuration={6000} open={open} onClose={handleClose}>
-              <Alert severity="error" sx={{ width: '100%' }} onClose={handleClose}>
-                {reqData}
-              </Alert>
-            </Snackbar>
-          )}
         </Box>
       </Container>
     </ThemeProvider>
