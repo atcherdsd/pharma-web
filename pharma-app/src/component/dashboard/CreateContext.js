@@ -70,7 +70,7 @@ export default function CreateContext() {
               fullWidth
               variant="contained"
               disabled={isFetching ? true : false}
-              sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: '2rem' }}
+              sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: { xs: '100%', sm: '2rem' } }}
             >
               Add
             </Button>
