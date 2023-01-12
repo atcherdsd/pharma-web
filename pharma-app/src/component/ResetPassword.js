@@ -43,12 +43,16 @@ export default function ResetPassword() {
         content: password,
         body: { password: password, resetPasswordToken: accessToken },
       });
-    } else {
+      setTimeout(() => {
+        setOpen(true);
+      }, 1000);
+    } else if (password !== confirmPassword) {
       setCheckPassword(false);
+    } else {
+      setTimeout(() => {
+        setOpen(true);
+      }, 1000);
     }
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
   };
 
   useEffect(() => {
