@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
+import { enumReqType } from '../helpers/EnumReqType';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -27,7 +28,10 @@ export const Login = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({ content: '', body: { email: '', password: '' } });
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(formData, 'login');
+  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
+    formData,
+    enumReqType.login
+  );
 
   useEffect(() => {
     if (typeof reqData !== 'string') {

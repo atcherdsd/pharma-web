@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
+import { enumReqType } from '../helpers/EnumReqType';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -29,7 +30,10 @@ export default function RestorePassword() {
 
   // Reducer for request logic
 
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(email, 'restorePassword');
+  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
+    email,
+    enumReqType.restorePassword
+  );
 
   // handler for request
 

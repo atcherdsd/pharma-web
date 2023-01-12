@@ -10,9 +10,10 @@ import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import useFetchReducer from '../../hooks/FetchReducer';
 import tranformToUpperCase from '../../helpers/transformToUpperCase';
+import { enumReqType } from '../../helpers/EnumReqType';
 
 export default function CreateContext() {
-  const [type, setType] = useState('getContext');
+  const [type, setType] = useState(enumReqType.getContext);
   const [context, setContext] = useState({ content: 'start', body: { name: '' } });
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(context, type);
 
@@ -20,7 +21,7 @@ export default function CreateContext() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const context = data.get('context');
-    setType('postContext');
+    setType(enumReqType.postContext);
     setContext({ content: context, body: { name: tranformToUpperCase(context) } });
   };
   return (

@@ -17,6 +17,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import useFetchReducer from '../hooks/FetchReducer';
+import { enumReqType } from '../helpers/EnumReqType';
 // import useAlert from '../hooks/useAlert';
 // import AlertPopup from './AlertPopup';
 
@@ -40,7 +41,7 @@ export default function ResetPassword() {
 
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
     password,
-    'resetPassword'
+    enumReqType.resetPassword
   );
   useEffect(() => {
     if (isSuccsessReq) navigate('/');

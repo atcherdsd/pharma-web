@@ -1,16 +1,17 @@
 import RequestAPI from '../services/auth.api.service';
 import ContextAPI from '../services/context.api.service';
+import { enumReqType } from '../helpers/EnumReqType';
 export default function requestSwitch(body, type) {
   switch (type) {
-    case 'restorePassword':
+    case enumReqType.restorePassword:
       return RequestAPI.reqToForgotPassword(body);
-    case 'resetPassword':
+    case enumReqType.resetPassword:
       return RequestAPI.reqToResetPassword(body);
-    case 'login':
+    case enumReqType.login:
       return RequestAPI.reqToLogin(body);
-    case 'getContext':
+    case enumReqType.getContext:
       return ContextAPI.getContext();
-    case 'postContext':
+    case enumReqType.postContext:
       return ContextAPI.postContext(body);
   }
 }
