@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import requestSwitch from '../component/helpers/RequestSwitch';
+import requestSwitch from '../helpers/RequestSwitch';
 
 const initialState = {
   isSuccsessReq: false,

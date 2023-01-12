@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Chart from '../Chart';
 import Deposits from '../Deposits';
-import Orders from '../Orders';
+import Orders from '../ContextTable';
 
 export default function NftSelling() {
   return (
