@@ -4,4 +4,5 @@ export const enumReqType = {
   login: 'login',
   getContext: 'getContext',
   postContext: 'postContext',
+  getCountry: 'getCountry',
 };

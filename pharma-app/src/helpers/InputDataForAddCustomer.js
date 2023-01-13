@@ -8,11 +8,15 @@ export const inputData = [
     placeholder: 'Company Type (AG, LTD, SA, etc..)',
   },
   {
+    id: 'country',
+    placeholder: 'Country of Residence',
+  },
+  {
     id: 'city',
     placeholder: 'Company City Of Residence',
   },
   {
-    id: 'Province',
+    id: 'province',
     placeholder: 'Company Province Of Residence',
   },
   {
@@ -28,20 +32,15 @@ export const inputData = [
     placeholder: 'Company URL',
   },
   {
+    id: 'zip',
+  },
+  {
     id: 'email',
     placeholder: 'Company PHARMACOM representative email',
   },
   {
     id: 'phoneNumber',
     placeholder: 'Company PHARMACOM representative phone number',
-  },
-  {
-    id: 'password',
-    placeholder: 'Password',
-  },
-  {
-    id: 'confirmPassword',
-    placeholder: 'Confirm Password',
   },
 ];
 
