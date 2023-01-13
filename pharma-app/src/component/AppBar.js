@@ -10,8 +10,8 @@ import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import removeUserDataFromLS from './helpers/utils';
 import { useNavigate } from 'react-router-dom';
+import removeUserDataFromLS from '../helpers/utils';
 
 const drawerWidth = 240;
 

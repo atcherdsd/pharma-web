@@ -3,7 +3,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { menuButtonColors } from '../helpers/menuButtonColors';
+import { menuButtonColors } from '../../helpers/menuButtonColors';
 
 const CustomizedListItemButton = styled(ListItemButton)`
   border-radius: 1rem 0 0 1rem;
