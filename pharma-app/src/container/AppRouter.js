@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import AuthVerify from './AuthVerify';
-import routes from '../component/helpers/routes';
+import routes from '../helpers/routes';
 import AlertPopup from '../component/AlertPopup';
 
 const AppRouter = () => {

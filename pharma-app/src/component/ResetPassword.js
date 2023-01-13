@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import useFetchReducer from '../hooks/FetchReducer';
+import { enumReqType } from '../helpers/EnumReqType';
 import useAlert from '../hooks/useAlert';
 
 const theme = createTheme();
@@ -21,14 +22,11 @@ export default function ResetPassword() {
     content: '',
     body: { password: '', resetPasswordToken: accessToken },
   });
-  const { setAlert, setOpen } = useAlert();
+  const { setOpen } = useAlert();
   const [checkPassword, setCheckPassword] = useState(true);
   // Reducer for request logic
 
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(
-    password,
-    'resetPassword'
-  );
+  const { isSuccsessReq, isFetching } = useFetchReducer(password, enumReqType.resetPassword);
 
   // handler for request
 
@@ -54,15 +52,20 @@ export default function ResetPassword() {
       }, 1000);
     }
   };
+  // useEffect(() => {
+  //   if (isSuccsessReq) {
+  //     setAlert(reqData, 'success');
+  //     navigate('/');
+  //   } else if (isError) {
+  //     setAlert(reqData, 'error');
+  //   }
+  // }, [isError, isSuccsessReq, navigate, reqData, setAlert]);
 
   useEffect(() => {
     if (isSuccsessReq) {
-      setAlert(reqData, 'success');
       navigate('/');
-    } else if (isError) {
-      setAlert(reqData, 'error');
     }
-  }, [isError, isSuccsessReq, navigate, reqData, setAlert]);
+  }, [isSuccsessReq]);
 
   return (
     <ThemeProvider theme={theme}>

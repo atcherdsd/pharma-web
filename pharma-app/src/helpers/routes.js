@@ -1,13 +1,13 @@
-import Dashboard from '../../container/Dashboard';
-import AlertPopup from '../AlertPopup';
-import { Login } from '../Login';
-import ResetPassword from '../ResetPassword';
-import RestorePassword from '../RestorePassword';
-import CreateContext from '../dashboard/CreateContext';
-import CreateCustomer from '../dashboard/CreateCustomer';
-import NftBurning from '../dashboard/NftBurning';
-import NftCreation from '../dashboard/NftCreation';
-import NftSelling from '../dashboard/NftSelling';
+import Dashboard from '../container/Dashboard';
+import AlertPopup from '../component/AlertPopup';
+import { Login } from '../component/Login';
+import ResetPassword from '../component/ResetPassword';
+import RestorePassword from '../component/RestorePassword';
+import CreateContext from '../component/dashboard/CreateContext';
+import CreateCustomer from '../component/dashboard/CreateCustomer';
+import NftBurning from '../component/dashboard/NftBurning';
+import NftCreation from '../component/dashboard/NftCreation';
+import NftSelling from '../component/dashboard/NftSelling';
 
 const paths = {
   restorePassword: 'restore-password',

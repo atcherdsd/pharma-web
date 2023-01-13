@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react';
-import requestSwitch from '../component/helpers/RequestSwitch';
+import requestSwitch from '../helpers/RequestSwitch';
+import useAlert from './useAlert';
 
 const initialState = {
   isSuccsessReq: false,
@@ -44,6 +45,7 @@ function dataFetchReducer(state, action) {
 }
 
 export default function useFetchReducer(dataForBody, type) {
+  const { setAlert } = useAlert();
   const [state, dispatch] = useReducer(dataFetchReducer, initialState);
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +57,7 @@ export default function useFetchReducer(dataForBody, type) {
       });
       const res = await requestSwitch(dataForBody.body, type);
       if (res.success) {
+        setAlert(res.message, 'success');
         dispatch({
           type: actionKind.FETCH_SUCCESS,
           payload: {
@@ -62,6 +65,7 @@ export default function useFetchReducer(dataForBody, type) {
           },
         });
       } else {
+        setAlert(res.message, 'error');
         dispatch({
           type: actionKind.FETCH_FAILURE,
           payload: {

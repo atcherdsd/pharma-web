@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import removeUserDataFromLS from '../component/helpers/utils';
+import removeUserDataFromLS from '../helpers/utils';
 
 const AuthVerify = () => {
   const location = useLocation();
