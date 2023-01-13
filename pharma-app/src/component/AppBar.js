@@ -1,17 +1,19 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Menu, MenuItem } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
+import useAlert from '../hooks/useAlert';
 import removeUserDataFromLS from '../helpers/utils';
+import useFetchReducer from '../hooks/FetchReducer';
+import { enumReqType } from '../helpers/EnumReqType';
 
 const drawerWidth = 240;
 
@@ -34,8 +36,12 @@ const CustomAppBar = styled(MuiAppBar, {
 }));
 
 export default function AppBar({ open, toggleDrawer }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+
+  const [dataForBody, setDataForBody] = useState({ content: '', body: { refreshToken: '' } });
+  const { isSuccsessReq } = useFetchReducer(dataForBody, enumReqType.logout);
+  const { setOpen } = useAlert();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -44,10 +50,18 @@ export default function AppBar({ open, toggleDrawer }) {
     setAnchorEl(null);
   };
   const handleLogout = () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    setDataForBody({ content: refreshToken, body: { refreshToken } });
     removeUserDataFromLS();
     handleClose();
-    navigate('/');
+    setOpen(true);
   };
+
+  useEffect(() => {
+    if (isSuccsessReq) {
+      navigate('/');
+    }
+  }, [isSuccsessReq]);
 
   return (
     <CustomAppBar position="absolute" open={open}>

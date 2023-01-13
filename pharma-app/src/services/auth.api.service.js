@@ -58,4 +58,23 @@ export default class RequestAPI {
       return errorData;
     }
   }
+  static async reqToLogout(body) {
+    const res = await fetch(`${baseURL}/auth/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) {
+      let successData = await res.json();
+      return {
+        ...successData,
+        message: 'You are logged out',
+      };
+    } else {
+      let errorData = await res.json();
+      return errorData;
+    }
+  }
 }

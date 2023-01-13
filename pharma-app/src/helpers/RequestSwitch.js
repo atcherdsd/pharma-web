@@ -9,6 +9,8 @@ export default function requestSwitch(body, type) {
       return RequestAPI.reqToResetPassword(body);
     case enumReqType.login:
       return RequestAPI.reqToLogin(body);
+    case enumReqType.logout:
+      return RequestAPI.reqToLogout(body);
     case enumReqType.getContext:
       return ContextAPI.getContext();
     case enumReqType.postContext:
