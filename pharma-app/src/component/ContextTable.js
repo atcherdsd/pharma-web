@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,7 +13,7 @@ export default function ContextTable({ contexts, count, isSuccsessReq }) {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>{`Total count: ${count ? count : 'Oops, something wrong'}`}</TableCell>
+            <TableCell>{`Total count: ${count ? count : 'No contexts'}`}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

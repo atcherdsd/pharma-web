@@ -48,11 +48,6 @@ export const Login = () => {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   if (isError) setAlert(reqData, 'error');
-  //   else if (isSuccsessReq) setAlert('You are successfully logged in', 'success');
-  // }, [isError, isSuccsessReq, reqData, setAlert]);
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

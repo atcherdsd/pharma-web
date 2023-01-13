@@ -52,14 +52,6 @@ export default function ResetPassword() {
       }, 1000);
     }
   };
-  // useEffect(() => {
-  //   if (isSuccsessReq) {
-  //     setAlert(reqData, 'success');
-  //     navigate('/');
-  //   } else if (isError) {
-  //     setAlert(reqData, 'error');
-  //   }
-  // }, [isError, isSuccsessReq, navigate, reqData, setAlert]);
 
   useEffect(() => {
     if (isSuccsessReq) {

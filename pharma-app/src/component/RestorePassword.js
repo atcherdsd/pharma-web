@@ -34,11 +34,6 @@ export default function RestorePassword() {
     }, 1000);
   };
 
-  // useEffect(() => {
-  //   if (isSuccsessReq) setAlert(reqData, 'success');
-  //   // else if (isError) setAlert(reqData, 'error');
-  // }, [isError, isSuccsessReq, reqData, setAlert]);
-
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
