@@ -25,7 +25,7 @@ export const Login = () => {
   const { isSuccsessReq, reqData, isFetching } = useFetchReducer(formData, enumReqType.login);
 
   useEffect(() => {
-    if (typeof reqData !== 'string') {
+    if (isSuccsessReq) {
       navigate('/dashboard/add-context');
       const { access, refresh } = reqData.tokens;
       localStorage.setItem('token', access.token);

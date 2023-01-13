@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 
-export default function ContextTable({ contexts, count, isSuccsessReq }) {
+export default function ContextTable({ contexts, count, isSuccsessReq, isError }) {
   return (
     <React.Fragment>
       <Title>Currently available business context</Title>
@@ -19,6 +19,12 @@ export default function ContextTable({ contexts, count, isSuccsessReq }) {
         </TableHead>
         <TableBody>
           {isSuccsessReq &&
+            contexts.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>{row.name}</TableCell>
+              </TableRow>
+            ))}
+          {isError &&
             contexts.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>

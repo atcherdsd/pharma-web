@@ -20,8 +20,19 @@ export default class ContextAPI {
       body: JSON.stringify(body),
     });
     if (res.ok) {
-      const contexts = ContextAPI.getContext();
-      return await contexts;
+      const contexts = await ContextAPI.getContext();
+      return {
+        ...contexts,
+        message: 'Your context successfully added',
+      };
+    } else {
+      const contexts = await ContextAPI.getContext();
+      const errData = await res.json();
+      return {
+        ...contexts,
+        success: false,
+        message: errData.message,
+      };
     }
   }
 }
