@@ -13,7 +13,7 @@ import { enumReqType } from '../../helpers/EnumReqType';
 export default function CreateContext() {
   const [type, setType] = useState(enumReqType.getContext);
   const [context, setContext] = useState({ content: 'start', body: { name: '' } });
-  const { isSuccsessReq, reqData, isError, isFetching } = useFetchReducer(context, type);
+  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(context, type);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,16 +29,12 @@ export default function CreateContext() {
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {isFetching ? (
             <CircularProgress />
-          ) : isSuccsessReq ? (
+          ) : (
             <ContextTable
               contexts={reqData.items}
               isSuccsessReq={isSuccsessReq}
-              count={reqData.count}
+              isError={isError}
             />
-          ) : isError ? (
-            <>No data</>
-          ) : (
-            <></>
           )}
         </Paper>
       </Grid>
