@@ -19,6 +19,10 @@ export default function CreateCustomer() {
   const [disabled, setDisabled] = useState(false);
   const { showSuccessAlert, showErrorAlert } = useAlert();
 
+  function cleanUp() {
+    form.current.reset();
+  }
+
   function getContext(contexts) {
     setContexts(contexts);
   }
@@ -28,7 +32,7 @@ export default function CreateCustomer() {
   }
 
   function onChange(event) {
-    console.log(form);
+    cleanUp();
     let file = event.target.value;
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
@@ -44,8 +48,8 @@ export default function CreateCustomer() {
     if (password === confirmPassword) {
       setCheckPassword(true);
       try {
-        console.log(createCustomerBody(data, contexts, countries));
         await CustomerAPI.postCustomer(createCustomerBody(data, contexts, countries));
+        cleanUp();
         showSuccessAlert('Successfully added');
       } catch (err) {
         showErrorAlert(err.response.data.message);
