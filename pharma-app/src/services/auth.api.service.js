@@ -47,6 +47,15 @@ export default class RequestAPI {
       },
       body: JSON.stringify(body),
     });
-    return await res.json();
+    if (res.ok) {
+      let successData = await res.json();
+      return {
+        ...successData,
+        message: 'You are successfully logged in',
+      };
+    } else {
+      let errorData = await res.json();
+      return errorData;
+    }
   }
 }
