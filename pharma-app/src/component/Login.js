@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,42 +9,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import useFetchReducer from '../hooks/FetchReducer';
-import { enumReqType } from '../helpers/EnumReqType';
 import useAlert from '../hooks/useAlert';
+import AuthAPIService from '../services/new.auth.api.service';
 
 const theme = createTheme();
 
 export const Login = () => {
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
-  const { setOpen } = useAlert();
-  const [formData, setFormData] = useState({ content: '', body: { email: '', password: '' } });
-  const { isSuccsessReq, reqData, isFetching } = useFetchReducer(formData, enumReqType.login);
+  const { showErrorAlert } = useAlert();
 
-  useEffect(() => {
-    if (isSuccsessReq) {
-      navigate('/dashboard/add-context');
-      const { access, refresh } = reqData.tokens;
-      localStorage.setItem('token', access.token);
-      localStorage.setItem('refreshToken', refresh.token);
-      localStorage.setItem('expires', refresh.expires);
-    }
-  }, [isSuccsessReq, navigate]);
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setDisabled(true);
+
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
-    setFormData({
-      content: `${String(email)}${password}`,
-      body: { email: email, password: password },
-    });
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
+
+    try {
+      await AuthAPIService.reqToLogin(email, password);
+      navigate('/dashboard/add-context');
+    } catch (err) {
+      showErrorAlert(err.response.data.message);
+    }
+
+    setDisabled(false);
   };
 
   // useEffect(() => {
@@ -97,7 +90,7 @@ export const Login = () => {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={isFetching ? true : false}
+              disabled={disabled}
             >
               Login
             </Button>
