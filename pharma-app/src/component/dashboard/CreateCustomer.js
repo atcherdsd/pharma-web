@@ -86,11 +86,7 @@ export default function CreateCustomer() {
             <TextField
               key={index + input.id}
               margin="normal"
-              required={
-                input.id == 'province' || input.id == 'url' || input.id == 'phoneNumber'
-                  ? false
-                  : true
-              }
+              required={input.required}
               id={input.id}
               name={input.id}
               placeholder={input.placeholder}
