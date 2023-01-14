@@ -32,7 +32,6 @@ export default function CreateCustomer() {
   }
 
   function onChange(event) {
-    cleanUp();
     let file = event.target.value;
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
