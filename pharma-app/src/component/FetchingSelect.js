@@ -1,20 +1,19 @@
 import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { enumReqType } from '../helpers/EnumReqType';
-import useFetchReducer from '../hooks/FetchReducer';
 import ResourceAPI from '../services/resource.api.service';
 import ContextAPI from '../services/context.api.service';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
-export default function FetchingSelect({ id, label, type }) {
+export default function FetchingSelect({ id, label, type, getItems }) {
   const [items, setItems] = useState([]);
   useEffect(() => {
     if (type == 'getContext') {
       ContextAPI.getContext()
         .then((result) => {
           setItems(result.items);
+          getItems(result.items);
         })
         .catch((err) => {
           throw new Error(err);
@@ -23,6 +22,7 @@ export default function FetchingSelect({ id, label, type }) {
       ResourceAPI.getCountry()
         .then((result) => {
           setItems(result.items);
+          getItems(result.items);
         })
         .catch((err) => {
           throw new Error(err);

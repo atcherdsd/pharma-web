@@ -30,7 +30,7 @@ export const inputData = [
     required: true,
   },
   {
-    id: 'postalCode',
+    id: 'zip',
     placeholder: 'Company Address Postal Code',
     required: true,
   },
@@ -40,7 +40,7 @@ export const inputData = [
     required: false,
   },
   {
-    id: 'zip',
+    id: 'document',
   },
   {
     id: 'email',
@@ -56,18 +56,18 @@ export const inputData = [
 
 export const role = [
   {
-    value: 'Supplier',
+    value: 'supplier',
   },
   {
-    value: 'Producer',
+    value: 'producer',
   },
   {
-    value: 'Logistic-Storage',
+    value: 'logistic-Storage',
   },
   {
-    value: 'Distributor',
+    value: 'distributor',
   },
   {
-    value: 'Reseller',
+    value: 'reseller',
   },
 ];

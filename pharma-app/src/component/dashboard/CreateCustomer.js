@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -7,37 +7,68 @@ import MenuItem from '@mui/material/MenuItem';
 import { inputData, role } from '../../helpers/InputDataForAddCustomer';
 import FetchingSelect from '../FetchingSelect';
 import createCustomerBody from '../../helpers/createCustomerBody';
+import CustomerAPI from '../../services/customer.api.service';
+import useAlert from '../../hooks/useAlert';
 
 export default function CreateCustomer() {
+  const form = useRef(null);
+  const [contexts, setContexts] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [uploadFile, setUploadFile] = useState('');
   const [checkPassword, setCheckPassword] = useState(true);
+  const [disabled, setDisabled] = useState(false);
+  const { showSuccessAlert, showErrorAlert } = useAlert();
+
+  function getContext(contexts) {
+    setContexts(contexts);
+  }
+
+  function getCountry(country) {
+    setCountries(country);
+  }
 
   function onChange(event) {
+    console.log(form);
     let file = event.target.value;
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
     setUploadFile(fileName);
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const password = data.get('password');
     const confirmPassword = data.get('confirmPassword');
+    setDisabled(true);
     if (password === confirmPassword) {
       setCheckPassword(true);
-      console.log(createCustomerBody(data));
+      try {
+        console.log(createCustomerBody(data, contexts, countries));
+        await CustomerAPI.postCustomer(createCustomerBody(data, contexts, countries));
+        showSuccessAlert('Successfully added');
+      } catch (err) {
+        showErrorAlert(err.response.data.message);
+      }
     } else {
       setCheckPassword(false);
     }
+    setDisabled(false);
   }
   return (
     <Paper sx={{ p: 2, display: 'flex', alignItems: 'left' }}>
-      <Box component="form" noValidate={false} sx={{ width: '100%' }} onSubmit={handleSubmit}>
+      <Box
+        component="form"
+        noValidate={false}
+        sx={{ width: '100%' }}
+        onSubmit={handleSubmit}
+        ref={form}
+      >
         <FetchingSelect
           id={'context'}
           label={'PHARMACOM Company Context'}
           type={'getContext'}
+          getItems={getContext}
         ></FetchingSelect>
         <TextField
           id="role"
@@ -62,8 +93,9 @@ export default function CreateCustomer() {
               id={input.id}
               label={'Country of Residence'}
               type={'getCountry'}
+              getItems={getCountry}
             ></FetchingSelect>
-          ) : input.id == 'zip' ? (
+          ) : input.id == 'document' ? (
             <Box sx={{ display: 'flex', gap: '1rem' }} required>
               <TextField
                 margin="normal"
@@ -71,15 +103,20 @@ export default function CreateCustomer() {
                 fullWidth
                 name="file"
                 id="file"
-                placeholder={
-                  uploadFile ? uploadFile : 'Company ProofOfIdentity Document (PDF, PNG, etc..)'
-                }
+                value={uploadFile}
+                placeholder={'Company ProofOfIdentity Document (PDF, PNG, etc..)'}
                 size="small"
                 sx={{ mb: 1, mt: 1 }}
               />
               <Button variant="contained" component="label" sx={{ mt: 1, mb: 1, pt: 0, pb: 0 }}>
                 Upload
-                <input hidden accept="image/*" type="file" name="fileUpload" onChange={onChange} />
+                <input
+                  hidden
+                  accept=".pdf, .docx, .png, .jpeg"
+                  type="file"
+                  name="fileUpload"
+                  onChange={onChange}
+                />
               </Button>
             </Box>
           ) : (
@@ -122,7 +159,7 @@ export default function CreateCustomer() {
           size="small"
           sx={{ mb: 1, mt: 1 }}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }}>
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           Add
         </Button>
       </Box>
