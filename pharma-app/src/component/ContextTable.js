@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
 
-export default function ContextTable({ contexts, isSuccsessReq }) {
+export default function ContextTable({ contexts, isSuccsessReq, isError }) {
   return (
     <React.Fragment>
       <Title>Currently available business context</Title>
