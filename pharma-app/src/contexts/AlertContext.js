@@ -8,6 +8,8 @@ const initialState = {
 const AlertContext = createContext({
   ...initialState,
   setAlert: () => {},
+  showErrorAlert: () => {},
+  showSuccessAlert: () => {},
 });
 
 export const AlertProvider = ({ children }) => {
@@ -18,7 +20,11 @@ export const AlertProvider = ({ children }) => {
   const setAlert = (text, type) => {
     setText(text);
     setType(type);
+    setOpen(true);
   };
+
+  const showErrorAlert = (text) => setAlert(text, 'error');
+  const showSuccessAlert = (text) => setAlert(text, 'success');
 
   return (
     <AlertContext.Provider
@@ -26,6 +32,8 @@ export const AlertProvider = ({ children }) => {
         text,
         type,
         setAlert,
+        showErrorAlert,
+        showSuccessAlert,
         open,
         setOpen,
       }}

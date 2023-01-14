@@ -12,7 +12,7 @@ const AlertPopup = () => {
   };
   if (text && type) {
     return (
-      <Snackbar autoHideDuration={5000} open={open} onClose={handleClose}>
+      <Snackbar autoHideDuration={2000} open={open} onClose={handleClose}>
         <Alert
           severity={type}
           elevation={6}
