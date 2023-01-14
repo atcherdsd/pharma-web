@@ -12,11 +12,6 @@ export default function ContextTable({ contexts, count, isSuccsessReq, isError }
     <React.Fragment>
       <Title>Currently available business context</Title>
       <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>{`Total count: ${count ? count : 'Oops, something wrong'}`}</TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
           {isSuccsessReq &&
             contexts.map((row) => (
