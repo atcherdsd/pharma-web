@@ -69,7 +69,7 @@ export default function useFetchReducer(dataForBody, type) {
         dispatch({
           type: actionKind.FETCH_FAILURE,
           payload: {
-            data: res.message,
+            data: res.data,
           },
         });
       }

@@ -9,18 +9,22 @@ import CircularProgress from '@mui/material/CircularProgress';
 import useFetchReducer from '../../hooks/FetchReducer';
 import transformToUpperCase from '../../helpers/transformToUpperCase';
 import { enumReqType } from '../../helpers/EnumReqType';
+import useAlert from '../../hooks/useAlert';
 
 export default function CreateContext() {
   const [type, setType] = useState(enumReqType.getContext);
   const [context, setContext] = useState({ content: 'start', body: { name: '' } });
   const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(context, type);
-
+  const { setOpen } = useAlert();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const context = data.get('context');
     setType(enumReqType.postContext);
     setContext({ content: context, body: { name: transformToUpperCase(context) } });
+    setTimeout(() => {
+      setOpen(true);
+    }, 1000);
   };
   return (
     <Grid container spacing={3}>
