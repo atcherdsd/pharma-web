@@ -1,47 +1,59 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import Chart from '../Chart';
-// import Deposits from '../Deposits';
 import ContextTable from '../ContextTable';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
-import useFetchReducer from '../../hooks/FetchReducer';
-import tranformToUpperCase from '../../helpers/transformToUpperCase';
-import { enumReqType } from '../../helpers/EnumReqType';
 import useAlert from '../../hooks/useAlert';
+import ContextAPI from '../../services/context.api.service';
 
-export default function CreateContext() {
-  const [type, setType] = useState(enumReqType.getContext);
-  const [context, setContext] = useState({ content: 'start', body: { name: '' } });
-  const { isSuccsessReq, isError, reqData, isFetching } = useFetchReducer(context, type);
-  const { setOpen } = useAlert();
-  const handleSubmit = (event) => {
+const CreateContext = () => {
+  const [disabled, setDisabled] = useState(false);
+  const [contexts, setContexts] = useState([]);
+  const [count, setCount] = useState(0);
+  const { showSuccessAlert, showErrorAlert } = useAlert();
+
+  useEffect(() => {
+    ContextAPI.getContext()
+      .then((result) => {
+        setContexts(result.items);
+        setCount(result.count);
+      })
+      .catch((err) => showErrorAlert(err.response.data.message));
+  }, [showErrorAlert]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setDisabled(true);
+
     const data = new FormData(event.currentTarget);
     const context = data.get('context');
-    setType(enumReqType.postContext);
-    setContext({ content: context, body: { name: tranformToUpperCase(context) } });
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
+
+    try {
+      await ContextAPI.postContext(context);
+      const result = await ContextAPI.getContext();
+      setContexts(result.items);
+      setCount(result.count);
+      showSuccessAlert('Context successfully added');
+    } catch (err) {
+      showErrorAlert(err.response?.data?.message);
+    }
+
+    setDisabled(false);
   };
+
   return (
     <Grid container spacing={3}>
       {/* Current context */}
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {isFetching ? (
+          {disabled ? (
             <CircularProgress />
           ) : (
-            <ContextTable
-              contexts={reqData.items}
-              isSuccsessReq={isSuccsessReq}
-              count={reqData.count}
-              isError={isError}
-            />
+            <ContextTable contexts={contexts} isSuccsessReq={true} count={count} isError={false} />
           )}
         </Paper>
       </Grid>
@@ -74,7 +86,7 @@ export default function CreateContext() {
               type="submit"
               fullWidth
               variant="contained"
-              disabled={isFetching ? true : false}
+              disabled={disabled ? true : false}
               sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: { xs: '100%', sm: '2rem' } }}
             >
               Add
@@ -84,4 +96,6 @@ export default function CreateContext() {
       </Grid>
     </Grid>
   );
-}
+};
+
+export default CreateContext;

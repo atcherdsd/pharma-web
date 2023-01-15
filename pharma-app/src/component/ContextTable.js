@@ -1,17 +1,21 @@
 import * as React from 'react';
-// import Link from '@mui/material/Link';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Title from './Title';
+import TableHead from '@mui/material/TableHead';
 
 export default function ContextTable({ contexts, count, isSuccsessReq, isError }) {
   return (
     <React.Fragment>
       <Title>Currently available business context</Title>
       <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell align="left">{`Total number of contexts: ${count}`}</TableCell>
+          </TableRow>
+        </TableHead>
         <TableBody>
           {isSuccsessReq &&
             contexts.map((row) => (

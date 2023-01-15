@@ -1,11 +1,18 @@
+import { useState } from 'react';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { Menu, MenuItem } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
+import useAlert from '../hooks/useAlert';
+import removeUserDataFromLS from '../helpers/utils';
+import AuthAPIService from '../services/new.auth.api.service';
 
 const drawerWidth = 240;
 
@@ -28,6 +35,30 @@ const CustomAppBar = styled(MuiAppBar, {
 }));
 
 export default function AppBar({ open, toggleDrawer }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const { showSuccessAlert, showErrorAlert } = useAlert();
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleLogout = async () => {
+    const refreshToken = localStorage.getItem('refreshToken');
+    try {
+      await AuthAPIService.reqToLogout(refreshToken);
+      showSuccessAlert('You are logged out');
+      removeUserDataFromLS();
+      navigate('/');
+    } catch (err) {
+      showErrorAlert(err.response.data.message);
+    } finally {
+      handleClose();
+    }
+  };
+
   return (
     <CustomAppBar position="absolute" open={open}>
       <Toolbar
@@ -50,11 +81,45 @@ export default function AppBar({ open, toggleDrawer }) {
         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
-        <IconButton color="inherit">
+        <IconButton
+          color="inherit"
+          sx={{
+            marginLeft: '12px',
+          }}
+        >
           <Badge badgeContent={4} color="secondary">
             <NotificationsIcon />
           </Badge>
         </IconButton>
+        <IconButton
+          sx={{
+            marginLeft: '12px',
+          }}
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="dialog"
+          onClick={handleMenu}
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
       </Toolbar>
     </CustomAppBar>
   );
