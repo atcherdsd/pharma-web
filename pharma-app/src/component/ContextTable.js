@@ -13,7 +13,7 @@ export default function ContextTable({ contexts, count, isSuccsessReq, isError }
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>{`Total count: ${count ? count : 'No contexts'}`}</TableCell>
+            <TableCell align="left">{`Total number of contexts: ${count}`}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

@@ -31,6 +31,7 @@ const CreateContext = () => {
 
     const data = new FormData(event.currentTarget);
     const context = data.get('context');
+
     try {
       await ContextAPI.postContext(context);
       const result = await ContextAPI.getContext();
