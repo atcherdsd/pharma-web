@@ -50,7 +50,11 @@ const CreateContext = () => {
       {/* Current context */}
       <Grid item xs={12}>
         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {disabled ? <CircularProgress /> : <ContextTable contexts={contexts} count={count} />}
+          {disabled ? (
+            <CircularProgress />
+          ) : (
+            <ContextTable contexts={contexts} isSuccsessReq={true} count={count} isError={false} />
+          )}
         </Paper>
       </Grid>
       <Grid item xs={12}>
