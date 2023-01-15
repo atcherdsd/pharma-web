@@ -1,5 +1,4 @@
 import Dashboard from '../container/Dashboard';
-import AlertPopup from '../component/AlertPopup';
 import { Login } from '../component/Login';
 import ResetPassword from '../component/ResetPassword';
 import RestorePassword from '../component/RestorePassword';
@@ -26,7 +25,6 @@ const routes = {
       path: '/',
       element: (
         <>
-          <AlertPopup />
           <Login />
         </>
       ),
@@ -35,7 +33,6 @@ const routes = {
       path: paths.restorePassword,
       element: (
         <>
-          <AlertPopup />
           <RestorePassword />
         </>
       ),
@@ -44,7 +41,6 @@ const routes = {
       path: paths.resetPassword,
       element: (
         <>
-          <AlertPopup />
           <ResetPassword />
         </>
       ),

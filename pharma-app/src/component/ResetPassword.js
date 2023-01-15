@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -9,55 +9,37 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useFetchReducer from '../hooks/FetchReducer';
-import { enumReqType } from '../helpers/EnumReqType';
 import useAlert from '../hooks/useAlert';
+import AuthAPIService from '../services/new.auth.api.service';
 
 const theme = createTheme();
 
 export default function ResetPassword() {
-  const accessToken = location.search ? location.search.split('=')[1] : null;
+  const resetPasswordToken = location.search ? location.search.split('=')[1] : null;
+  const { showErrorAlert } = useAlert();
   const navigate = useNavigate();
-  const [password, setPassword] = useState({
-    content: '',
-    body: { password: '', resetPasswordToken: accessToken },
-  });
-  const { setOpen } = useAlert();
+  const [disabled, setDisabled] = useState(false);
   const [checkPassword, setCheckPassword] = useState(true);
-  // Reducer for request logic
 
-  const { isSuccsessReq, isFetching } = useFetchReducer(password, enumReqType.resetPassword);
-
-  // handler for request
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const password = data.get('password');
     const confirmPassword = data.get('confirm-password');
+    setDisabled(true);
     if (password === confirmPassword) {
       setCheckPassword(true);
-      setPassword({
-        content: password,
-        body: { password: password, resetPasswordToken: accessToken },
-      });
-      setTimeout(() => {
-        setOpen(true);
-      }, 1000);
-    } else if (password !== confirmPassword) {
-      setCheckPassword(false);
+      try {
+        await AuthAPIService.reqToResetPassword(resetPasswordToken, password);
+        navigate('/');
+      } catch (err) {
+        showErrorAlert(err.response.data.message);
+      }
     } else {
-      setTimeout(() => {
-        setOpen(true);
-      }, 1000);
+      setCheckPassword(false);
     }
+    setDisabled(false);
   };
-
-  useEffect(() => {
-    if (isSuccsessReq) {
-      navigate('/');
-    }
-  }, [isSuccsessReq]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,7 +89,7 @@ export default function ResetPassword() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={isFetching ? true : false}
+              disabled={disabled}
             >
               Save new password
             </Button>

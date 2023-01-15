@@ -8,30 +8,28 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useFetchReducer from '../hooks/FetchReducer';
-import { enumReqType } from '../helpers/EnumReqType';
 import useAlert from '../hooks/useAlert';
+import AuthAPIService from '../services/new.auth.api.service';
 
 const theme = createTheme();
 
 export default function RestorePassword() {
-  const [email, setEmail] = useState({ content: '', body: { email: '' } });
-  const { setOpen } = useAlert();
+  const [disabled, setDisabled] = useState(false);
+  const { showSuccessAlert, showErrorAlert } = useAlert();
 
-  // Reducer for request logic
-
-  const { isFetching } = useFetchReducer(email, enumReqType.restorePassword);
-
-  // handler for request
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setDisabled(true);
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
-    setEmail({ content: email, body: { email: email } });
-    setTimeout(() => {
-      setOpen(true);
-    }, 1000);
+    try {
+      await AuthAPIService.reqToForgotPassword(email);
+      showSuccessAlert('Restore email successfully sent! Please, check your email.');
+    } catch (err) {
+      showErrorAlert(err.response.data.message);
+    }
+
+    setDisabled(false);
   };
 
   return (
@@ -68,7 +66,7 @@ export default function RestorePassword() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={isFetching ? true : false}
+              disabled={disabled}
             >
               Restore password
             </Button>
