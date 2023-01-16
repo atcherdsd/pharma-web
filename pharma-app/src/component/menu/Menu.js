@@ -56,7 +56,11 @@ export default function Menu({ open, toggleDrawer }) {
         <MenuItem text="Add a context" icon={<DashboardIcon />} route="/dashboard/add-context" />
         <MenuItem text="New customer" icon={<DashboardIcon />} route="/dashboard/add-customer" />
         <MenuItem text="NFT creation" icon={<DashboardIcon />} route="/dashboard/nft-creation" />
-        <MenuItem text="NFT selling" icon={<DashboardIcon />} route="/dashboard/nft-selling" />
+        <MenuItem
+          text="Request NFT Burn"
+          icon={<DashboardIcon />}
+          route="/dashboard/nft-req-burn"
+        />
         <MenuItem text="NFT burning" icon={<DashboardIcon />} route="/dashboard/nft-burning" />
       </List>
     </CustomDrawer>

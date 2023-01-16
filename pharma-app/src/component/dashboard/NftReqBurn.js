@@ -15,7 +15,7 @@ import NftCreationTable from '../NftCreationTable';
 import useAlert from '../../hooks/useAlert';
 import CustomerAPI from '../../services/customer.api.service';
 
-const NftSelling = () => {
+const NftReqBurn = () => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -101,7 +101,7 @@ const NftSelling = () => {
   );
 };
 
-export default NftSelling;
+export default NftReqBurn;
 
 // import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
