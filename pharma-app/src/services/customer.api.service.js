@@ -7,4 +7,5 @@ export default class CustomerAPI {
         'Content-Type': 'multipart/form-data',
       },
     });
+  static getCustomer = () => apiClient.get('/customer');
 }
