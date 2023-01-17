@@ -7,5 +7,6 @@ export default class CustomerAPI {
         'Content-Type': 'multipart/form-data',
       },
     });
-  static getCustomer = () => apiClient.get('/customer');
+  static getCustomer = (contextId, role) =>
+    apiClient.get(`/customer?context=${contextId}&role=${role}`);
 }

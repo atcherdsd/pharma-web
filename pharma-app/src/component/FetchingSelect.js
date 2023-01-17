@@ -6,8 +6,16 @@ import ContextAPI from '../services/context.api.service';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
-export default function FetchingSelect({ id, label, type, getItems }) {
+export default function FetchingSelect({ id, label, type, getItems, handleSelect }) {
   const [items, setItems] = useState([]);
+
+  function handleChange(event) {
+    const value = event.target.value;
+    const item = items.find((elem) => Object.values(elem).includes(value));
+    const contextId = item.id;
+    handleSelect(contextId);
+  }
+
   useEffect(() => {
     if (type == 'getContext') {
       ContextAPI.getContext()
@@ -38,6 +46,7 @@ export default function FetchingSelect({ id, label, type, getItems }) {
       fullWidth
       label={label}
       defaultValue=""
+      onChange={handleChange}
       required
       sx={{ mb: 1, mt: 1 }}
     >

@@ -15,9 +15,10 @@ import NftCreationTable from '../NftCreationTable';
 import useAlert from '../../hooks/useAlert';
 import CustomerAPI from '../../services/customer.api.service';
 
-const NftBurning = () => {
+const NftCreation = () => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
+  const [contextId, setContextId] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [roleValue, setRoleValue] = useState('supplier');
   const [disabled, setDisabled] = useState(false);
@@ -25,6 +26,10 @@ const NftBurning = () => {
 
   function getContext(contexts) {
     setContexts(contexts);
+  }
+
+  function handleContextSelection(id) {
+    setContextId(id);
   }
 
   function handleRadioChange(event) {
@@ -51,12 +56,16 @@ const NftBurning = () => {
   }
 
   useEffect(() => {
-    CustomerAPI.getCustomer()
-      .then((result) => {
-        setCustomers(result.items);
-      })
-      .catch((err) => showErrorAlert(err.response.data.message));
-  }, [showErrorAlert]);
+    if (contextId) {
+      setDisabled(true);
+      CustomerAPI.getCustomer(contextId, roleValue)
+        .then((result) => {
+          setCustomers(result.items);
+        })
+        .catch((err) => showErrorAlert(err.response.data.message));
+      setDisabled(false);
+    }
+  }, [contextId, roleValue, showErrorAlert]);
 
   return (
     <Paper sx={{ p: 2, display: 'flex', alignItems: 'left' }}>
@@ -73,6 +82,7 @@ const NftBurning = () => {
           label={'PHARMACOM Company Context'}
           type={'getContext'}
           getItems={getContext}
+          handleSelect={handleContextSelection}
         ></FetchingSelect>
 
         <FormControl sx={{ mt: 2, mb: 2 }}>
@@ -94,11 +104,11 @@ const NftBurning = () => {
         </FormControl>
         <NftCreationTable roleValue={roleValue} customers={customers} />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
-          BURN
+          NFT GENERATION
         </Button>
       </Box>
     </Paper>
   );
 };
 
-export default NftBurning;
+export default NftCreation;
