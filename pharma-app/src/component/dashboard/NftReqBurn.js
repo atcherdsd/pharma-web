@@ -3,8 +3,10 @@ import { Button } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useState } from 'react';
 import { roles } from '../../helpers/nftCreationCustomerRoles';
+import Title from '../Title';
+import SelectProductName from '../SelectProductName';
 
-const NftSelling = () => {
+const NftReqBurn = () => {
   const [disabled, setDisabled] = useState(false);
   const [customerRole, setCustomerRole] = useState(roles[0]);
 
@@ -19,6 +21,8 @@ const NftSelling = () => {
         onRoleChange={onRoleChange}
         customerRole={customerRole}
       />
+      <Title>Select a specific NFT</Title>
+      <SelectProductName id={2}></SelectProductName>
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
         REQUEST NFT BURN
       </Button>
@@ -26,7 +30,7 @@ const NftSelling = () => {
   );
 };
 
-export default NftSelling;
+export default NftReqBurn;
 
 // import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
