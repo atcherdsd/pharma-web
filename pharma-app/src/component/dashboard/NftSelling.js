@@ -15,7 +15,7 @@ import NftCreationTable from '../NftCreationTable';
 import useAlert from '../../hooks/useAlert';
 import CustomerAPI from '../../services/customer.api.service';
 
-const NftCreation = () => {
+const NftSelling = () => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
   const [contextId, setContextId] = useState(null);
@@ -104,14 +104,14 @@ const NftCreation = () => {
         </FormControl>
         <NftCreationTable roleValue={roleValue} customers={customers} />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
-          NFT GENERATION
+          REQUEST NFT BURN
         </Button>
       </Box>
     </Paper>
   );
 };
 
-export default NftCreation;
+export default NftSelling;
 
 // import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
