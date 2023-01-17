@@ -5,15 +5,14 @@ import NftCreationTable from './NftCreationTable';
 import CustomerAPI from '../services/customer.api.service';
 import { useRef, useState, useEffect } from 'react';
 import useAlert from '../hooks/useAlert';
-import { role } from '../helpers/customerNftRole';
 import transformToUpperCase from '../helpers/transformToUpperCase';
+import { roles } from '../helpers/nftCreationCustomerRoles';
 
-const CustomerSelect = ({ setDisabled }) => {
+const CustomerSelect = ({ setDisabled, customerRole, onRoleChange }) => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
   const [contextId, setContextId] = useState(null);
   const [customers, setCustomers] = useState([]);
-  const [roleValue, setRoleValue] = useState(role[0]);
   const { showSuccessAlert, showErrorAlert } = useAlert();
 
   function getContext(contexts) {
@@ -22,10 +21,6 @@ const CustomerSelect = ({ setDisabled }) => {
 
   function handleContextSelection(id) {
     setContextId(id);
-  }
-
-  function onRoleChange(event) {
-    setRoleValue(event.target.value);
   }
 
   async function handleSubmit(event) {
@@ -50,14 +45,14 @@ const CustomerSelect = ({ setDisabled }) => {
   useEffect(() => {
     if (contextId) {
       setDisabled(true);
-      CustomerAPI.getCustomer(contextId, roleValue)
+      CustomerAPI.getCustomer(contextId, customerRole)
         .then((result) => {
           setCustomers(result.items);
         })
         .catch((err) => showErrorAlert(err.response.data.message));
       setDisabled(false);
     }
-  }, [contextId, roleValue, setDisabled, showErrorAlert]);
+  }, [contextId, customerRole, setDisabled, showErrorAlert]);
 
   return (
     <Box
@@ -83,12 +78,12 @@ const CustomerSelect = ({ setDisabled }) => {
         <RadioGroup
           row
           aria-labelledby="row-radio-buttons-group-label"
-          defaultValue={role[0]}
-          value={roleValue}
+          defaultValue={customerRole}
+          value={customerRole}
           name="roles"
           onChange={onRoleChange}
         >
-          {role.map((item) => {
+          {roles.map((item) => {
             return (
               <FormControlLabel
                 key={item}
@@ -100,7 +95,7 @@ const CustomerSelect = ({ setDisabled }) => {
           })}
         </RadioGroup>
       </FormControl>
-      <NftCreationTable roleValue={roleValue} customers={customers} />
+      <NftCreationTable roleValue={customerRole} customers={customers} />
     </Box>
   );
 };
