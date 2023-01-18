@@ -4,7 +4,7 @@ import CustomerSelect from '../CustomerSelect';
 import { useState } from 'react';
 import { roles } from '../../helpers/nftCreationCustomerRoles';
 
-const NftSelling = () => {
+const NftReqBurn = () => {
   const [disabled, setDisabled] = useState(false);
   const [customerRole, setCustomerRole] = useState(roles[0]);
   const [customerName, setCustomerName] = useState('');
@@ -33,7 +33,7 @@ const NftSelling = () => {
   );
 };
 
-export default NftSelling;
+export default NftReqBurn;
 
 // import Grid from '@mui/material/Grid';
 // import Paper from '@mui/material/Paper';
