@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 // import BoxAPI from '../services/box.api.service';
 import useAlert from '../hooks/useAlert';
 import Title from './Title';
+import DateInput from './DateInput';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
@@ -140,6 +141,7 @@ export default function NftSelect({ customerRole, roles, id }) {
         </>
       )}
       {customerRole === roles[2] && <Title>NFT re-boxing</Title>}
+      <DateInput customerRole={customerRole} roles={roles} />
     </>
   );
 }
