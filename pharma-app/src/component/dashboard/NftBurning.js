@@ -8,14 +8,19 @@ const NftBurning = () => {
   const [disabled, setDisabled] = useState(false);
   const [customerRole, setCustomerRole] = useState(nftBurningCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
+  const [customerId, setCustomerId] = useState('');
 
   function onRoleChange(event) {
     setCustomerRole(event.target.value);
   }
 
-  function onCustomerSelect(event) {
-    setCustomerName(event.target.closest('tr').firstChild.innerText);
+  function onCustomerSelect(name, id) {
+    setCustomerName(name);
+    setCustomerId(id);
   }
+
+  console.log('customerId: ', customerId);
+  console.log('customerName: ', customerName);
 
   return (
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>

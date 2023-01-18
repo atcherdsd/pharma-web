@@ -2,6 +2,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
+// import Box from '@mui/material/Box';
 
 export default function SelectProductName({ handleChangeLot, handleChangeHash, productName, box }) {
   return (
@@ -42,10 +43,32 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
           </MenuItem>
         ))}
       </TextField>
-      <img
-        src={'http://134.0.115.216/v1/box/dec9fdea-c307-497b-8757-bf4af7f4b18d/qr'}
-        alt={'logo'}
-      ></img>
     </div>
   );
+}
+
+{
+  /* <Autocomplete
+  id="country-select-demo"
+  sx={{ width: 300 }}
+  options={productName}
+  autoHighlight
+  getOptionLabel={(option) => option.name}
+  onChange={handleChangeLot}
+  renderOption={(props, option) => (
+    <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+      {option.name}
+    </Box>
+  )}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Choose a country"
+      inputProps={{
+        ...params.inputProps,
+        autoComplete: 'new-password', // disable autocomplete and autofill
+      }}
+    />
+  )}
+></Autocomplete>; */
 }
