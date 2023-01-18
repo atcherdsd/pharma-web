@@ -6,9 +6,15 @@ import CustomerAPI from '../services/customer.api.service';
 import { useRef, useState, useEffect } from 'react';
 import useAlert from '../hooks/useAlert';
 import transformToUpperCase from '../helpers/transformToUpperCase';
-import { roles } from '../helpers/nftCreationCustomerRoles';
 
-const CustomerSelect = ({ setDisabled, customerRole, onRoleChange }) => {
+const CustomerSelect = ({
+  setDisabled,
+  customerRole,
+  onRoleChange,
+  onCustomerSelect,
+  customerName,
+  roles,
+}) => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
   const [contextId, setContextId] = useState(null);
@@ -95,7 +101,13 @@ const CustomerSelect = ({ setDisabled, customerRole, onRoleChange }) => {
           })}
         </RadioGroup>
       </FormControl>
-      <NftCreationTable roleValue={customerRole} customers={customers} />
+      <NftCreationTable
+        roleValue={customerRole}
+        customers={customers}
+        onCustomerSelect={onCustomerSelect}
+        customerName={customerName}
+        roles={roles}
+      />
     </Box>
   );
 };
