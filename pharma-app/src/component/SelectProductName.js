@@ -1,61 +1,9 @@
-import { useState, useEffect } from 'react';
-import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import LotAPI from '../services/lot.api.service';
-import BoxAPI from '../services/box.api.service';
-import useAlert from '../hooks/useAlert';
+import TextField from '@mui/material/TextField';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
-export default function SelectProductName({ id }) {
-  const [lot, setLot] = useState('');
-  const [hash, setHash] = useState('');
-  const [productName, setProductName] = useState([]);
-  const [box, setBox] = useState([]);
-  const { showErrorAlert } = useAlert();
-
-  function handleChangeLot(event) {
-    const value = event.target.value;
-    setLot(value);
-  }
-
-  function handleChangeHash(event) {
-    const value = event.target.value;
-    setHash(value);
-  }
-
-  useEffect(() => {
-    LotAPI.getProductNameById(id)
-      .then((result) => {
-        setProductName(result.items);
-      })
-      .catch((err) => showErrorAlert(err.response.data.message));
-  }, [id, showErrorAlert]);
-
-  useEffect(() => {
-    if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot, id)
-        .then((result) => {
-          setBox(result.items);
-        })
-        .catch((err) => {
-          showErrorAlert(err.response.data.message);
-        });
-    }
-  }, [id, lot, showErrorAlert]);
-
-  useEffect(() => {
-    if (hash) {
-      BoxAPI.getBoxImage(hash)
-        .then((result) => {
-          console.log(result);
-        })
-        .catch((err) => {
-          showErrorAlert(err.response.data.message);
-        });
-    }
-  }, [hash, showErrorAlert]);
-
+export default function SelectProductName({ handleChangeLot, handleChangeHash, productName, box }) {
   return (
     <div>
       <TextField
