@@ -12,7 +12,7 @@ export default function DateInput({ customerRole, roles }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
-        label="Custom input"
+        label="Date input"
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
