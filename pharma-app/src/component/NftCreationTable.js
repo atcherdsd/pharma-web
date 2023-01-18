@@ -61,10 +61,22 @@ function filterCustomers(array, role, onCustomerSelect, customerName) {
     });
 }
 
-export default function NftCreationTable({ roleValue, customers, onCustomerSelect, customerName }) {
+export default function NftCreationTable({
+  roleValue,
+  customers,
+  onCustomerSelect,
+  customerName,
+  roles,
+}) {
   return (
     <React.Fragment>
-      <Title>Select the NFT issuer</Title>
+      <Title>
+        {roles.includes('supplier') && !roles.includes('reseller')
+          ? 'Select the NFT issuer'
+          : !roles.includes('supplier') && roles.includes('reseller')
+          ? 'Select the customer'
+          : 'Select the NFT owner/author'}
+      </Title>
       <Table
         size="small"
         sx={{

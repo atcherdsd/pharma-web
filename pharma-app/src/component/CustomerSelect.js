@@ -6,7 +6,6 @@ import CustomerAPI from '../services/customer.api.service';
 import { useRef, useState, useEffect } from 'react';
 import useAlert from '../hooks/useAlert';
 import transformToUpperCase from '../helpers/transformToUpperCase';
-import { roles } from '../helpers/nftCreationCustomerRoles';
 
 const CustomerSelect = ({
   setDisabled,
@@ -14,6 +13,7 @@ const CustomerSelect = ({
   onRoleChange,
   onCustomerSelect,
   customerName,
+  roles,
 }) => {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
@@ -106,6 +106,7 @@ const CustomerSelect = ({
         customers={customers}
         onCustomerSelect={onCustomerSelect}
         customerName={customerName}
+        roles={roles}
       />
     </Box>
   );

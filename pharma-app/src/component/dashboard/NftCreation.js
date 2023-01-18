@@ -2,11 +2,11 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useState } from 'react';
-import { roles } from '../../helpers/nftCreationCustomerRoles';
+import { nftCreationCustomerRoles } from '../../helpers/customerRoles';
 
 const NftCreation = () => {
   const [disabled, setDisabled] = useState(false);
-  const [customerRole, setCustomerRole] = useState(roles[0]);
+  const [customerRole, setCustomerRole] = useState(nftCreationCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
 
   function onRoleChange(event) {
@@ -25,6 +25,7 @@ const NftCreation = () => {
         onRoleChange={onRoleChange}
         onCustomerSelect={onCustomerSelect}
         customerName={customerName}
+        roles={nftCreationCustomerRoles}
       />
       <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
         NFT GENERATION
