@@ -38,7 +38,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function filterCustomers(array, role, onCustomerSelect, customerName) {
+function filterCustomers(array, role, onCustomerClick, customerName) {
   return array
     .filter((customer) => {
       return customer.role === role;
@@ -48,7 +48,7 @@ function filterCustomers(array, role, onCustomerSelect, customerName) {
       return (
         <StyledTableRow
           key={filteredCustomer.name}
-          onClick={onCustomerSelect}
+          onClick={onCustomerClick}
           selected={customerName === filteredCustomer.name}
         >
           <StyledTableCell>{filteredCustomer.name}</StyledTableCell>
@@ -68,6 +68,13 @@ export default function NftCreationTable({
   customerName,
   roles,
 }) {
+  function onCustomerClick(event) {
+    const customerName = event.target.closest('tr').firstChild.innerText;
+    const customerItem = customers.find((elem) => Object.values(elem).includes(customerName));
+    const customerId = customerItem.id;
+    onCustomerSelect(customerName, customerId);
+  }
+
   return (
     <React.Fragment>
       <Title>
@@ -100,7 +107,7 @@ export default function NftCreationTable({
           </TableRow>
         </TableHead>
         <TableBody>
-          {roleValue && filterCustomers(customers, roleValue, onCustomerSelect, customerName)}
+          {roleValue && filterCustomers(customers, roleValue, onCustomerClick, customerName)}
         </TableBody>
       </Table>
     </React.Fragment>
