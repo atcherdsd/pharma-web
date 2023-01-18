@@ -7,7 +7,7 @@ import useAlert from '../hooks/useAlert';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
-export default function FetchingSelect({ id }) {
+export default function SelectProductName({ id }) {
   const [lot, setLot] = useState('');
   const [hash, setHash] = useState('');
   const [productName, setProductName] = useState([]);
