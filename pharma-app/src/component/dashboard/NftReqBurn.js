@@ -114,12 +114,13 @@ const NftReqBurn = () => {
           customerName={customerName}
           roles={nftRequestBurnCustomerRoles}
         />
-        <Title>Select a specific NFT</Title>
+        <Title sx={{ mb: 1, mt: 2 }}>Select a specific NFT</Title>
         <SelectProductName
           handleChangeLot={handleChangeLot}
           handleChangeHash={handleChangeHash}
           productName={productName}
           box={box}
+          lot={lot}
         ></SelectProductName>
         {hash && (
           <Card sx={{ maxWidth: 185 }}>

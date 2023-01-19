@@ -4,7 +4,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
 
-export default function SelectProductName({ handleChangeLot, handleChangeHash, productName, box }) {
+export default function SelectProductName({
+  handleChangeLot,
+  handleChangeHash,
+  productName,
+  box,
+  lot,
+}) {
   const defaultLotProps = {
     options: productName,
     getOptionLabel: (option) => option.name || '',
@@ -19,18 +25,21 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
         sx={{ mb: 1, mt: 1 }}
         {...defaultLotProps}
         id="lotName"
+        required
         onChange={handleChangeLot}
         renderInput={(params) => (
           <TextField {...params} label="NFTProductName" variant="standard" />
         )}
       />
-      <Autocomplete
-        sx={{ mb: 1, mt: 1 }}
-        {...defaultBoxProps}
-        id="hash"
-        onChange={handleChangeHash}
-        renderInput={(params) => <TextField {...params} label="NFTBox" variant="standard" />}
-      />
+      {lot && (
+        <Autocomplete
+          sx={{ mb: 1, mt: 1 }}
+          {...defaultBoxProps}
+          id="hash"
+          onChange={handleChangeHash}
+          renderInput={(params) => <TextField {...params} label="NFTBox" variant="standard" />}
+        />
+      )}
       {/* <TextField
         id="productName"
         name="productName"
