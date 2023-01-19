@@ -6,6 +6,7 @@ import { nftCreationCustomerRoles } from '../../helpers/customerRoles';
 import NftSelect from '../NftSelect';
 import useAlert from '../../hooks/useAlert';
 import IngredientAPI from '../../services/ingredient.api.services';
+import LotAPI from '../../services/lot.api.service';
 
 const NftCreation = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -40,12 +41,10 @@ const NftCreation = () => {
   const [expiringDate, setExpiringDate] = useState(null);
 
   function handleIngredientNameChange(event) {
-    const value = event.target.value;
-    setIngredientName(value);
+    setIngredientName(event.target.value);
   }
   function handleIngredientDescriptionChange(event) {
-    const value = event.target.value;
-    setIngredientDescription(value);
+    setIngredientDescription(event.target.value);
   }
   function handleExpiringDateChange(value) {
     setExpiringDate(value);
@@ -61,18 +60,46 @@ const NftCreation = () => {
 
   // Producer
 
-  // function handleChangeHash(event) {
-  //   const value = event.target.value;
-  //   setHash(value);
-  // }
-  // function handleNftQuantityChange(event) {
-  //   const value = event.target.value;
-  //   setNftQuantity(value);
-  // }
-  // function handleChangeLot(event) {
-  //   const value = event.target.value;
-  //   setLot(value);
-  // }
+  const [nftBox, setNftBox] = useState();
+  const [nftQuantity, setNftQuantity] = useState();
+  const [nftProductName, setProductName] = useState();
+  const [productDescription, setProductDescription] = useState('');
+  const [nftBasicIngredientID, setNftBasicIngredientID] = useState('');
+  const [uploadFile, setUploadFile] = useState('');
+
+  function handleNftBoxChange(event) {
+    setNftBox(event.target.value);
+  }
+  function handleNftQuantityChange(event) {
+    setNftQuantity(event.target.value);
+  }
+  function handleProductNameChange(event) {
+    setProductName(event.target.value);
+  }
+  function handleProductDescriptionChange(event) {
+    setProductDescription(event.target.value);
+  }
+  function handleNFTBasicIngredientChange(event) {
+    setNftBasicIngredientID(event.target.value);
+  }
+  function onChangeFile(event) {
+    let file = event.target.value;
+    let index = file.indexOf('fakepath');
+    let fileName = file.slice(index + 9);
+    setUploadFile(fileName);
+  }
+
+  const lotData = {
+    customer: customerId,
+    name: nftProductName,
+    boxes: nftQuantity,
+    description: productDescription,
+    expires: expiringDate,
+    leaflet: uploadFile,
+    ingredients: [nftBasicIngredientID],
+  };
+
+  // Submit
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -85,13 +112,30 @@ const NftCreation = () => {
       } catch (err) {
         showErrorAlert(err.response.data.message);
       }
+    } else if (customerRole === nftCreationCustomerRoles[1]) {
+      try {
+        await LotAPI.postLot(lotData);
+        showSuccessAlert('NFT successfully created');
+        cleanUp();
+      } catch (err) {
+        showErrorAlert(err.response.data.message);
+      }
     }
     setDisabled(false);
   }
   function cleanUp() {
     form.current.reset();
-    setIngredientName('');
-    setIngredientDescription('');
+    if (customerRole === nftCreationCustomerRoles[0]) {
+      setIngredientName('');
+      setIngredientDescription('');
+    } else if (customerRole === nftCreationCustomerRoles[1]) {
+      setNftBox('');
+      setNftQuantity('');
+      setProductName('');
+      setProductDescription('');
+      setNftBasicIngredientID('');
+      setUploadFile('');
+    }
     setExpiringDate(null);
   }
 
@@ -122,6 +166,14 @@ const NftCreation = () => {
           handleIngredientDescriptionChange={handleIngredientDescriptionChange}
           handleExpiringDateChange={handleExpiringDateChange}
           expiringDate={expiringDate}
+          customerId={customerId}
+          handleNftQuantityChange={handleNftQuantityChange}
+          handleNftBoxChange={handleNftBoxChange}
+          handleProductNameChange={handleProductNameChange}
+          handleProductDescriptionChange={handleProductDescriptionChange}
+          nftBasicIngredientID={nftBasicIngredientID}
+          handleNFTBasicIngredientChange={handleNFTBasicIngredientChange}
+          onChangeFile={onChangeFile}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           NFT GENERATION

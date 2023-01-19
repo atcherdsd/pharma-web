@@ -7,6 +7,7 @@ import useAlert from '../hooks/useAlert';
 import Title from './Title';
 import DateInput from './DateInput';
 import { Box, Button } from '@mui/material';
+import IngredientAPI from '../services/ingredient.api.services';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
@@ -17,60 +18,43 @@ export default function NftSelect({
   handleIngredientDescriptionChange,
   handleExpiringDateChange,
   expiringDate,
-  id,
+  customerId,
+  handleNftQuantityChange,
+  handleNftBoxChange,
+  handleProductNameChange,
+  handleProductDescriptionChange,
+  nftBasicIngredientID,
+  handleNFTBasicIngredientChange,
+  onChangeFile,
 }) {
-  const [nftQuantity, setNftQuantity] = useState();
-  const [productDescription, setProductDescription] = useState('');
-  const [nftBasicIngredients, setNftBasicIngredients] = useState('');
-  const [uploadFile, setUploadFile] = useState('');
-  const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
-
-  const [lot, setLot] = useState('');
-  const [hash, setHash] = useState('');
-  const [productName, setProductName] = useState([]);
-  const [box, setBox] = useState([]);
   const { showErrorAlert } = useAlert();
 
-  function handleChangeHash(event) {
-    const value = event.target.value;
-    setHash(value);
+  const [nftBasicIngredients, setNftBasicIngredients] = useState([]);
+
+  const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
+
+  function handleChangeLot(event, newValue) {
+    setLot(newValue);
   }
 
-  function handleChangeLot(event) {
-    const value = event.target.value;
-    setLot(value);
-  }
-  function handleNftQuantityChange(event) {
-    const value = event.target.value;
-    setNftQuantity(value);
-  }
-  function handleProductDescriptionChange(event) {
-    const value = event.target.value;
-    setProductDescription(value);
-  }
-  function handleNFTBasicIngredientsChange(event) {
-    const value = event.target.value;
-    setNftBasicIngredients(value);
+  function handleChangeHash(event, newValue) {
+    setHash(newValue);
   }
 
-  function onChangeFile(event) {
-    let file = event.target.value;
-    let index = file.indexOf('fakepath');
-    let fileName = file.slice(index + 9);
-    setUploadFile(fileName);
-  }
   function handleNftReboxedQuantityChange(event) {
     const value = event.target.value;
     setNftReboxedQuantity(value);
   }
 
-  // useEffect(() => {
-  //   LotAPI.getProductNameById(customerId)
-  //     .then((result) => {
-  //       setProductName(result.items);
-  //     })
-  //     .catch((err) => showErrorAlert(err.response.data.message));
-  // }, [customerId, showErrorAlert]);
+  useEffect(() => {
+    if (customerId) {
+      IngredientAPI.getIngredients(customerId)
+        .then((result) => {
+          setNftBasicIngredients(result.items);
+        })
+        .catch((err) => showErrorAlert(err.response.data.message));
+    }
+  }, [customerId, showErrorAlert]);
 
   // useEffect(() => {
   //   if (lot) {
@@ -129,28 +113,19 @@ export default function NftSelect({
           <TextField
             id="nftBox"
             name="nftBox"
-            select
             size="small"
             fullWidth
-            label="NFTLotNumber"
-            defaultValue=""
-            onChange={handleChangeHash}
+            label="NFTBox"
+            onChange={handleNftBoxChange}
             required
             sx={{ mb: 1, mt: 1 }}
-          >
-            {box.map((box) => (
-              <MenuItem key={box.index} value={box.hash}>
-                {box.hash}
-              </MenuItem>
-            ))}
-          </TextField>
+          />
           <TextField
             id="nftQuantity"
             name="nftQuantity"
             size="small"
             fullWidth
             label="NFTQuantity"
-            value={nftQuantity}
             onChange={handleNftQuantityChange}
             required
             sx={{ mb: 1, mt: 1 }}
@@ -158,28 +133,19 @@ export default function NftSelect({
           <TextField
             id="productName"
             name="productName"
-            select
             size="small"
             fullWidth
             label="NFTProductName"
-            defaultValue=""
-            onChange={handleChangeLot}
+            onChange={handleProductNameChange}
             required
             sx={{ mb: 1, mt: 1 }}
-          >
-            {productName.map((lot) => (
-              <MenuItem key={lot.id} value={lot.id}>
-                {lot.name}
-              </MenuItem>
-            ))}
-          </TextField>
+          />
           <TextField
             id="productDescription"
             name="productDescription"
             size="small"
             fullWidth
             label="NFTProductDescription"
-            value={productDescription}
             onChange={handleProductDescriptionChange}
             required
             sx={{ mb: 1, mt: 1 }}
@@ -192,13 +158,14 @@ export default function NftSelect({
             fullWidth
             label="NFTBasicIngredients"
             defaultValue=""
-            onChange={handleNFTBasicIngredientsChange}
+            value={nftBasicIngredientID}
+            onChange={handleNFTBasicIngredientChange}
             required
             sx={{ mb: 1, mt: 1 }}
           >
-            {productName.map((lot) => (
-              <MenuItem key={lot.id} value={lot.id}>
-                {lot.name}
+            {nftBasicIngredients.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
               </MenuItem>
             ))}
           </TextField>
@@ -209,7 +176,6 @@ export default function NftSelect({
               fullWidth
               name="file"
               id="file"
-              value={uploadFile}
               placeholder={'NFTLeaflet (XML file with tags for any languages available)'}
               size="small"
               sx={{ mb: 1, mt: 1 }}
@@ -236,11 +202,11 @@ export default function NftSelect({
             required
             sx={{ mb: 1, mt: 1 }}
           >
-            {productName.map((lot) => (
+            {/* {productName.map((lot) => (
               <MenuItem key={lot.id} value={lot.id}>
                 {lot.name}
               </MenuItem>
-            ))}
+            ))} */}
           </TextField>
           <TextField
             id="nftBox"
@@ -254,11 +220,11 @@ export default function NftSelect({
             required
             sx={{ mb: 1, mt: 1 }}
           >
-            {box.map((box) => (
+            {/* {box.map((box) => (
               <MenuItem key={box.index} value={box.hash}>
                 {box.hash}
               </MenuItem>
-            ))}
+            ))} */}
           </TextField>
           <TextField
             id="nftReboxedQuantity"

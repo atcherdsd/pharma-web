@@ -1,7 +1,7 @@
 import apiClient from '../http/apiClient';
 
 export default class IngredientAPI {
-  // static getContext = () => apiClient.get('/context');
+  static postIngredient = (ingredientData) => apiClient.post('/ingredient', ingredientData);
 
-  static postIngredient = (ingredient) => apiClient.post('/ingredient', ingredient);
+  static getIngredients = (id) => apiClient.get(`/ingredient?customer=${id}`);
 }
