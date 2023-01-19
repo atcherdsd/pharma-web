@@ -59,6 +59,21 @@ const NftCreation = () => {
     quantity: 100,
   };
 
+  // Producer
+
+  // function handleChangeHash(event) {
+  //   const value = event.target.value;
+  //   setHash(value);
+  // }
+  // function handleNftQuantityChange(event) {
+  //   const value = event.target.value;
+  //   setNftQuantity(value);
+  // }
+  // function handleChangeLot(event) {
+  //   const value = event.target.value;
+  //   setLot(value);
+  // }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setDisabled(true);
@@ -82,7 +97,13 @@ const NftCreation = () => {
 
   return (
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
-      <Box component="form" noValidate={false} sx={{ width: '100%' }} ref={form}>
+      <Box
+        component="form"
+        noValidate={false}
+        sx={{ width: '100%' }}
+        ref={form}
+        onSubmit={handleSubmit}
+      >
         <CustomerSelect
           setDisabled={setDisabled}
           contextId={contextId}
@@ -102,17 +123,10 @@ const NftCreation = () => {
           handleExpiringDateChange={handleExpiringDateChange}
           expiringDate={expiringDate}
         />
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+          NFT GENERATION
+        </Button>
       </Box>
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        sx={{ mt: 1 }}
-        disabled={disabled}
-        onClick={handleSubmit}
-      >
-        NFT GENERATION
-      </Button>
     </Paper>
   );
 };
