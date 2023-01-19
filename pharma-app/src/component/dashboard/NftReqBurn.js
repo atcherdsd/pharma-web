@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import Title from '../Title';
 import SelectProductName from '../SelectProductName';
@@ -14,15 +14,17 @@ import CardMedia from '@mui/material/CardMedia';
 const baseURL = process.env.REACT_APP_BASE_URL;
 
 const NftReqBurn = () => {
+  const { showSuccessAlert, showErrorAlert } = useAlert();
+  const form = useRef(null);
   const [disabled, setDisabled] = useState(false);
   const [customerId, setCustomerId] = useState('');
+  const [contextId, setContextId] = useState(null);
   const [customerRole, setCustomerRole] = useState(nftRequestBurnCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
   const [lot, setLot] = useState('');
   const [hash, setHash] = useState('');
   const [productName, setProductName] = useState([]);
   const [box, setBox] = useState([]);
-  const { showSuccessAlert, showErrorAlert } = useAlert();
 
   function handleChangeLot(event) {
     const value = event.target.value;
@@ -38,23 +40,14 @@ const NftReqBurn = () => {
     setCustomerRole(event.target.value);
   }
 
+  function handleContextSelection(id) {
+    setContextId(id);
+  }
+
   function onCustomerSelect(name, id) {
     setCustomerName(name);
     setCustomerId(id);
   }
-
-  const onClick = async (event) => {
-    event.preventDefault();
-    setDisabled(true);
-    try {
-      await BoxAPI.freeze(hash);
-      showSuccessAlert('Successfully!');
-    } catch (err) {
-      showErrorAlert(err.response.data.message);
-    }
-
-    setDisabled(false);
-  };
 
   useEffect(() => {
     if (customerId) {
@@ -86,91 +79,67 @@ const NftReqBurn = () => {
     }
   }, [hash, showErrorAlert]);
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setDisabled(true);
+    // if (customerRole === nftCreationCustomerRoles[0]) {
+    try {
+      await BoxAPI.freeze(hash);
+      showSuccessAlert('Request successfully sent');
+      cleanUp();
+    } catch (err) {
+      showErrorAlert(err.response.data.message);
+    }
+    // }
+    setDisabled(false);
+  }
+  function cleanUp() {
+    form.current.reset();
+  }
+
   return (
     <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
-      <CustomerSelect
-        setDisabled={setDisabled}
-        customerRole={customerRole}
-        onRoleChange={onRoleChange}
-        onCustomerSelect={onCustomerSelect}
-        customerName={customerName}
-        roles={nftRequestBurnCustomerRoles}
-      />
-      <Title>Select a specific NFT</Title>
-      <SelectProductName
-        handleChangeLot={handleChangeLot}
-        handleChangeHash={handleChangeHash}
-        productName={productName}
-        box={box}
-      ></SelectProductName>
-      {hash && (
-        <Card sx={{ maxWidth: 185 }}>
-          <CardMedia
-            component="img"
-            width="164"
-            height="164"
-            image={`${baseURL}/box/${hash}/qr`}
-            alt="QR"
-          />
-        </Card>
-      )}
-      <Button
-        type="submit"
-        onClick={onClick}
-        fullWidth
-        variant="contained"
-        sx={{ mt: 1 }}
-        disabled={disabled}
+      <Box
+        component="form"
+        noValidate={false}
+        sx={{ width: '100%' }}
+        ref={form}
+        onSubmit={handleSubmit}
       >
-        REQUEST NFT BURN
-      </Button>
+        <CustomerSelect
+          setDisabled={setDisabled}
+          contextId={contextId}
+          handleContextSelection={handleContextSelection}
+          customerRole={customerRole}
+          onRoleChange={onRoleChange}
+          onCustomerSelect={onCustomerSelect}
+          customerName={customerName}
+          roles={nftRequestBurnCustomerRoles}
+        />
+        <Title>Select a specific NFT</Title>
+        <SelectProductName
+          handleChangeLot={handleChangeLot}
+          handleChangeHash={handleChangeHash}
+          productName={productName}
+          box={box}
+        ></SelectProductName>
+        {hash && (
+          <Card sx={{ maxWidth: 185 }}>
+            <CardMedia
+              component="img"
+              width="164"
+              height="164"
+              image={`${baseURL}/box/${hash}/qr`}
+              alt="QR"
+            />
+          </Card>
+        )}
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+          REQUEST NFT BURN
+        </Button>
+      </Box>
     </Paper>
   );
 };
 
 export default NftReqBurn;
-
-// import Grid from '@mui/material/Grid';
-// import Paper from '@mui/material/Paper';
-// import Chart from '../Chart';
-// import Deposits from '../Deposits';
-// import Orders from '../ContextTable';
-
-// export default function NftSelling() {
-//   return (
-//     <Grid container spacing={3}>
-//       {/* Chart */}
-//       <Grid item xs={12} md={8} lg={9}>
-//         <Paper
-//           sx={{
-//             p: 2,
-//             display: 'flex',
-//             flexDirection: 'column',
-//             height: 240,
-//           }}
-//         >
-//           <Chart />
-//         </Paper>
-//       </Grid>
-//       {/* Recent Deposits */}
-//       <Grid item xs={12} md={4} lg={3}>
-//         <Paper
-//           sx={{
-//             p: 2,
-//             display: 'flex',
-//             flexDirection: 'column',
-//             height: 240,
-//           }}
-//         >
-//           <Deposits />
-//         </Paper>
-//       </Grid>
-//       {/* Recent Orders */}
-//       <Grid item xs={12}>
-//         <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-//           <Orders />
-//         </Paper>
-//       </Grid>
-//     </Grid>
-//   );
-// }
