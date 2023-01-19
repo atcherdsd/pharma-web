@@ -10,9 +10,15 @@ import { Box, Button } from '@mui/material';
 // import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 
-export default function NftSelect({ customerRole, roles, id }) {
-  const [ingredientName, setIngredientName] = useState('');
-  const [ingredientDescription, setIngredientDescription] = useState('');
+export default function NftSelect({
+  customerRole,
+  roles,
+  handleIngredientNameChange,
+  handleIngredientDescriptionChange,
+  handleExpiringDateChange,
+  expiringDate,
+  id,
+}) {
   const [nftQuantity, setNftQuantity] = useState();
   const [productDescription, setProductDescription] = useState('');
   const [nftBasicIngredients, setNftBasicIngredients] = useState('');
@@ -24,15 +30,6 @@ export default function NftSelect({ customerRole, roles, id }) {
   const [productName, setProductName] = useState([]);
   const [box, setBox] = useState([]);
   const { showErrorAlert } = useAlert();
-
-  function handleIngredientNameChange(event) {
-    const value = event.target.value;
-    setIngredientName(value);
-  }
-  function handleIngredientDescriptionChange(event) {
-    const value = event.target.value;
-    setIngredientDescription(value);
-  }
 
   function handleChangeHash(event) {
     const value = event.target.value;
@@ -110,7 +107,6 @@ export default function NftSelect({ customerRole, roles, id }) {
             size="small"
             fullWidth
             label="NFTBasicIngredientName"
-            value={ingredientName}
             onChange={handleIngredientNameChange}
             required
             sx={{ mb: 1, mt: 1 }}
@@ -121,7 +117,6 @@ export default function NftSelect({ customerRole, roles, id }) {
             size="small"
             fullWidth
             label="NFTBasicIngredientDescription"
-            value={ingredientDescription}
             onChange={handleIngredientDescriptionChange}
             required
             sx={{ mb: 1, mt: 1 }}
@@ -278,7 +273,12 @@ export default function NftSelect({ customerRole, roles, id }) {
           />
         </>
       )}
-      <DateInput customerRole={customerRole} roles={roles} />
+      <DateInput
+        customerRole={customerRole}
+        roles={roles}
+        handleExpiringDateChange={handleExpiringDateChange}
+        expiringDate={expiringDate}
+      />
     </>
   );
 }
