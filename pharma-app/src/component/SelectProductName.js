@@ -1,13 +1,37 @@
-import MenuItem from '@mui/material/MenuItem';
+// import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-// import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
 
 export default function SelectProductName({ handleChangeLot, handleChangeHash, productName, box }) {
+  const defaultLotProps = {
+    options: productName,
+    getOptionLabel: (option) => option.name || '',
+  };
+  const defaultBoxProps = {
+    options: box,
+    getOptionLabel: (option) => option.hash || '',
+  };
   return (
     <div>
-      <TextField
+      <Autocomplete
+        sx={{ mb: 1, mt: 1 }}
+        {...defaultLotProps}
+        id="lotName"
+        onChange={handleChangeLot}
+        renderInput={(params) => (
+          <TextField {...params} label="NFTProductName" variant="standard" />
+        )}
+      />
+      <Autocomplete
+        sx={{ mb: 1, mt: 1 }}
+        {...defaultBoxProps}
+        id="hash"
+        onChange={handleChangeHash}
+        renderInput={(params) => <TextField {...params} label="NFTBox" variant="standard" />}
+      />
+      {/* <TextField
         id="productName"
         name="productName"
         select
@@ -24,8 +48,8 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
             {lot.name}
           </MenuItem>
         ))}
-      </TextField>
-      <TextField
+      </TextField> */}
+      {/* <TextField
         id="nftBox"
         name="nftBox"
         select
@@ -42,7 +66,7 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
             {box.hash}
           </MenuItem>
         ))}
-      </TextField>
+      </TextField> */}
     </div>
   );
 }
@@ -53,7 +77,7 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
   sx={{ width: 300 }}
   options={productName}
   autoHighlight
-  getOptionLabel={(option) => option.name}
+  getOptionLabel={(option) => option.name || ''}
   onChange={handleChangeLot}
   renderOption={(props, option) => (
     <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
@@ -66,7 +90,7 @@ export default function SelectProductName({ handleChangeLot, handleChangeHash, p
       label="Choose a country"
       inputProps={{
         ...params.inputProps,
-        autoComplete: 'new-password', // disable autocomplete and autofill
+        autoComplete: 'new-password',
       }}
     />
   )}

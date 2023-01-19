@@ -26,14 +26,12 @@ const NftReqBurn = () => {
   const [productName, setProductName] = useState([]);
   const [box, setBox] = useState([]);
 
-  function handleChangeLot(event) {
-    const value = event.target.value;
-    setLot(value);
+  function handleChangeLot(event, newValue) {
+    setLot(newValue);
   }
 
-  function handleChangeHash(event) {
-    const value = event.target.value;
-    setHash(value);
+  function handleChangeHash(event, newValue) {
+    setHash(newValue);
   }
 
   function onRoleChange(event) {
@@ -61,7 +59,7 @@ const NftReqBurn = () => {
 
   useEffect(() => {
     if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot, customerId)
+      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId)
         .then((result) => {
           setBox(result.items);
         })
@@ -73,7 +71,7 @@ const NftReqBurn = () => {
 
   useEffect(() => {
     if (hash) {
-      BoxAPI.getBoxImage(hash).catch((err) => {
+      BoxAPI.getBoxImage(hash.hash).catch((err) => {
         showErrorAlert(err.response.data.message);
       });
     }
@@ -84,7 +82,7 @@ const NftReqBurn = () => {
     setDisabled(true);
     // if (customerRole === nftCreationCustomerRoles[0]) {
     try {
-      await BoxAPI.freeze(hash);
+      await BoxAPI.freeze(hash.hash, hash.customer);
       showSuccessAlert('Request successfully sent');
       cleanUp();
     } catch (err) {
@@ -129,7 +127,7 @@ const NftReqBurn = () => {
               component="img"
               width="164"
               height="164"
-              image={`${baseURL}/box/${hash}/qr`}
+              image={`${baseURL}/box/${hash.hash}/qr`}
               alt="QR"
             />
           </Card>
