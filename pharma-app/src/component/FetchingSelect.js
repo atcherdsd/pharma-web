@@ -50,7 +50,7 @@ export default function FetchingSelect({ id, label, type, getItems, handleSelect
       sx={{ mb: 1, mt: 1 }}
     >
       {items.map((option) => (
-        <MenuItem key={option.id || option.code} value={option.name}>
+        <MenuItem key={option.name} value={option.name}>
           {option.name}
         </MenuItem>
       ))}

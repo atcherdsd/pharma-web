@@ -43,6 +43,7 @@ export default function CreateCustomer() {
 
   function onChange(event) {
     let file = event.target.value;
+    console.log(file);
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
     setUploadFile(fileName);
@@ -107,11 +108,12 @@ export default function CreateCustomer() {
               id={input.id}
               label={'Country of Residence'}
               type={'getCountry'}
+              key={index}
               getItems={getCountry}
               handleSelect={handleCountrySelection}
             ></FetchingSelect>
           ) : input.id == 'document' ? (
-            <Box sx={{ display: 'flex', gap: '1rem' }} required>
+            <Box sx={{ display: 'flex', gap: '1rem' }} key={index} required>
               <TextField
                 margin="normal"
                 required
@@ -136,7 +138,7 @@ export default function CreateCustomer() {
             </Box>
           ) : (
             <TextField
-              key={index + input.id}
+              key={index}
               margin="normal"
               required={input.required}
               id={input.id}
