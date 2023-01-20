@@ -43,7 +43,6 @@ export default function CreateCustomer() {
 
   function onChange(event) {
     let file = event.target.value;
-    console.log(file);
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
     setUploadFile(fileName);

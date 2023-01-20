@@ -80,7 +80,6 @@ const NftReqBurn = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setDisabled(true);
-    // if (customerRole === nftCreationCustomerRoles[0]) {
     try {
       await BoxAPI.freeze(hash.hash, hash.customer);
       showSuccessAlert('Request successfully sent');
@@ -88,7 +87,6 @@ const NftReqBurn = () => {
     } catch (err) {
       showErrorAlert(err.response.data.message);
     }
-    // }
     setDisabled(false);
   }
   function cleanUp() {
