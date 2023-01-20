@@ -1,19 +1,38 @@
+import { useState, useEffect, useRef } from 'react';
 import Paper from '@mui/material/Paper';
 import { Box, Button } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
-import { useRef, useState } from 'react';
+import Title from '../Title';
+import SelectProductName from '../SelectProductName';
 import { nftRequestBurnCustomerRoles } from '../../helpers/customerRoles';
 import useAlert from '../../hooks/useAlert';
+import BoxAPI from '../../services/box.api.service';
+import LotAPI from '../../services/lot.api.service';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 const NftReqBurn = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
   const form = useRef(null);
-
   const [disabled, setDisabled] = useState(false);
+  const [customerId, setCustomerId] = useState('');
   const [contextId, setContextId] = useState(null);
   const [customerRole, setCustomerRole] = useState(nftRequestBurnCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
-  const [customerId, setCustomerId] = useState('');
+  const [lot, setLot] = useState('');
+  const [hash, setHash] = useState('');
+  const [productName, setProductName] = useState([]);
+  const [box, setBox] = useState([]);
+
+  function handleChangeLot(event, newValue) {
+    setLot(newValue);
+  }
+
+  function handleChangeHash(event, newValue) {
+    setHash(newValue);
+  }
 
   function onRoleChange(event) {
     setCustomerRole(event.target.value);
@@ -28,15 +47,42 @@ const NftReqBurn = () => {
     setCustomerId(id);
   }
 
-  console.log('customerId: ', customerId);
-  console.log('customerName: ', customerName);
+  useEffect(() => {
+    if (customerId) {
+      LotAPI.getProductNameById(customerId)
+        .then((result) => {
+          setProductName(result.items);
+        })
+        .catch((err) => showErrorAlert(err.response.data.message));
+    }
+  }, [customerId, showErrorAlert]);
+
+  useEffect(() => {
+    if (lot) {
+      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId)
+        .then((result) => {
+          setBox(result.items);
+        })
+        .catch((err) => {
+          showErrorAlert(err.response.data.message);
+        });
+    }
+  }, [customerId, lot, showErrorAlert]);
+
+  useEffect(() => {
+    if (hash) {
+      BoxAPI.getBoxImage(hash.hash).catch((err) => {
+        showErrorAlert(err.response.data.message);
+      });
+    }
+  }, [hash, showErrorAlert]);
 
   async function handleSubmit(event) {
     event.preventDefault();
     setDisabled(true);
     // if (customerRole === nftCreationCustomerRoles[0]) {
     try {
-      // await IngredientAPI.postIngredient(ingredientData);
+      await BoxAPI.freeze(hash.hash, hash.customer);
       showSuccessAlert('Request successfully sent');
       cleanUp();
     } catch (err) {
@@ -68,6 +114,25 @@ const NftReqBurn = () => {
           customerName={customerName}
           roles={nftRequestBurnCustomerRoles}
         />
+        <Title sx={{ mb: 1, mt: 2 }}>Select a specific NFT</Title>
+        <SelectProductName
+          handleChangeLot={handleChangeLot}
+          handleChangeHash={handleChangeHash}
+          productName={productName}
+          box={box}
+          lot={lot}
+        ></SelectProductName>
+        {hash && (
+          <Card sx={{ maxWidth: 185 }}>
+            <CardMedia
+              component="img"
+              width="164"
+              height="164"
+              image={`${baseURL}/box/${hash.hash}/qr`}
+              alt="QR"
+            />
+          </Card>
+        )}
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           REQUEST NFT BURN
         </Button>

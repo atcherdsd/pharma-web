@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
+import transformToUpperCase from '../../helpers/transformToUpperCase';
 
 const CreateContext = () => {
   const [disabled, setDisabled] = useState(false);
@@ -30,7 +31,7 @@ const CreateContext = () => {
     setDisabled(true);
 
     const data = new FormData(event.currentTarget);
-    const context = data.get('context');
+    const context = transformToUpperCase(data.get('context'));
 
     try {
       await ContextAPI.postContext(context);
