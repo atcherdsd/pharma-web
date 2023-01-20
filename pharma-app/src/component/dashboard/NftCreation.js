@@ -7,6 +7,7 @@ import NftSelect from '../NftSelect';
 import useAlert from '../../hooks/useAlert';
 import IngredientAPI from '../../services/ingredient.api.services';
 import LotAPI from '../../services/lot.api.service';
+import BoxAPI from '../../services/box.api.service';
 
 const NftCreation = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -30,9 +31,6 @@ const NftCreation = () => {
     setCustomerName(name);
     setCustomerId(id);
   }
-
-  console.log('customerId: ', customerId);
-  console.log('customerName: ', customerName);
 
   // Supplier
 
@@ -62,7 +60,7 @@ const NftCreation = () => {
 
   const [nftBox, setNftBox] = useState();
   const [nftQuantity, setNftQuantity] = useState();
-  const [nftProductName, setProductName] = useState();
+  const [nftProductName, setNftProductName] = useState();
   const [productDescription, setProductDescription] = useState('');
   const [nftBasicIngredientID, setNftBasicIngredientID] = useState('');
   const [uploadFile, setUploadFile] = useState('');
@@ -74,7 +72,7 @@ const NftCreation = () => {
     setNftQuantity(event.target.value);
   }
   function handleProductNameChange(event) {
-    setProductName(event.target.value);
+    setNftProductName(event.target.value);
   }
   function handleProductDescriptionChange(event) {
     setProductDescription(event.target.value);
@@ -99,6 +97,32 @@ const NftCreation = () => {
     ingredients: [nftBasicIngredientID],
   };
 
+  // Distributor
+
+  const [countryCode, setCountryCode] = useState('');
+  const [lot, setLot] = useState('');
+  const [hash, setHash] = useState('');
+  const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
+
+  function handleCountrySelection(code) {
+    setCountryCode(code);
+  }
+  function handleChangeLot(event) {
+    setLot(event.target.value);
+  }
+  function handleChangeHash(event) {
+    setHash(event.target.value);
+  }
+  function handleNftReboxedQuantityChange(event) {
+    setNftReboxedQuantity(event.target.value);
+  }
+
+  const reboxData = {
+    customer: customerId,
+    country: countryCode,
+    expires: expiringDate,
+  };
+
   // Submit
 
   async function handleSubmit(event) {
@@ -107,7 +131,7 @@ const NftCreation = () => {
     if (customerRole === nftCreationCustomerRoles[0]) {
       try {
         await IngredientAPI.postIngredient(ingredientData);
-        showSuccessAlert('NFT successfully created');
+        showSuccessAlert('NFT successfully generated');
         cleanUp();
       } catch (err) {
         showErrorAlert(err.response.data.message);
@@ -115,7 +139,15 @@ const NftCreation = () => {
     } else if (customerRole === nftCreationCustomerRoles[1]) {
       try {
         await LotAPI.postLot(lotData);
-        showSuccessAlert('NFT successfully created');
+        showSuccessAlert('NFT successfully generated');
+        cleanUp();
+      } catch (err) {
+        showErrorAlert(err.response.data.message);
+      }
+    } else if (customerRole === nftCreationCustomerRoles[2]) {
+      try {
+        await BoxAPI.rebox(hash, reboxData);
+        showSuccessAlert('NFT successfully reboxed');
         cleanUp();
       } catch (err) {
         showErrorAlert(err.response.data.message);
@@ -131,10 +163,15 @@ const NftCreation = () => {
     } else if (customerRole === nftCreationCustomerRoles[1]) {
       setNftBox('');
       setNftQuantity('');
-      setProductName('');
+      setNftProductName('');
       setProductDescription('');
       setNftBasicIngredientID('');
       setUploadFile('');
+    } else if (customerRole === nftCreationCustomerRoles[2]) {
+      setCountryCode('');
+      setLot('');
+      setHash('');
+      setNftReboxedQuantity('');
     }
     setExpiringDate(null);
   }
@@ -174,6 +211,13 @@ const NftCreation = () => {
           nftBasicIngredientID={nftBasicIngredientID}
           handleNFTBasicIngredientChange={handleNFTBasicIngredientChange}
           onChangeFile={onChangeFile}
+          handleCountrySelection={handleCountrySelection}
+          handleChangeLot={handleChangeLot}
+          uploadFile={uploadFile}
+          lot={lot}
+          hash={hash}
+          handleChangeHash={handleChangeHash}
+          handleNftReboxedQuantityChange={handleNftReboxedQuantityChange}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           NFT GENERATION

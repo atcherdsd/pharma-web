@@ -3,8 +3,6 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import ResourceAPI from '../services/resource.api.service';
 import ContextAPI from '../services/context.api.service';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import CircularProgress from '@mui/material/CircularProgress';
 
 export default function FetchingSelect({ id, label, type, getItems, handleSelect }) {
   const [items, setItems] = useState([]);
@@ -12,8 +10,9 @@ export default function FetchingSelect({ id, label, type, getItems, handleSelect
   function handleChange(event) {
     const value = event.target.value;
     const item = items.find((elem) => Object.values(elem).includes(value));
-    const contextId = item.id;
-    handleSelect(contextId);
+    let content;
+    item.id ? (content = item.id) : (content = item.code);
+    handleSelect(content);
   }
 
   useEffect(() => {
@@ -57,56 +56,4 @@ export default function FetchingSelect({ id, label, type, getItems, handleSelect
       ))}
     </TextField>
   );
-}
-
-{
-  /* <Autocomplete
-      id={id}
-      name={id}
-      fullWidth
-      open={open}
-      required
-      size="small"
-      sx={{ mb: 1, mt: 1 }}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
-      options={options}
-      loading={isFetching}
-      renderInput={(params) =>
-        isSuccsessReq ? (
-          <TextField
-            required
-            size="small"
-            name={id}
-            {...params}
-            label={label}
-            defaultValue=""
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {isFetching ? <CircularProgress color="inherit" size={20} /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-          />
-        ) : (
-          <TextField
-            margin="normal"
-            fullWidth
-            placeholder="loading"
-            size="small"
-            disabled
-            sx={{ mb: 1, mt: 1 }}
-          />
-        )
-      }
-    /> */
 }

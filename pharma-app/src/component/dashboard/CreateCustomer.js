@@ -14,6 +14,8 @@ export default function CreateCustomer() {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
   const [countries, setCountries] = useState([]);
+  const [contextId, setContextId] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   const [uploadFile, setUploadFile] = useState('');
   const [checkPassword, setCheckPassword] = useState(true);
   const [disabled, setDisabled] = useState(false);
@@ -29,6 +31,14 @@ export default function CreateCustomer() {
 
   function getCountry(country) {
     setCountries(country);
+  }
+
+  function handleContextSelection(id) {
+    setContextId(id);
+  }
+
+  function handleCountrySelection(code) {
+    setCountryCode(code);
   }
 
   function onChange(event) {
@@ -72,6 +82,7 @@ export default function CreateCustomer() {
           label={'PHARMACOM Company Context'}
           type={'getContext'}
           getItems={getContext}
+          handleSelect={handleContextSelection}
         ></FetchingSelect>
         <TextField
           id="role"
@@ -97,6 +108,7 @@ export default function CreateCustomer() {
               label={'Country of Residence'}
               type={'getCountry'}
               getItems={getCountry}
+              handleSelect={handleCountrySelection}
             ></FetchingSelect>
           ) : input.id == 'document' ? (
             <Box sx={{ display: 'flex', gap: '1rem' }} required>

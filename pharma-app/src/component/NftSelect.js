@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-// import LotAPI from '../services/lot.api.service';
-// import BoxAPI from '../services/box.api.service';
 import useAlert from '../hooks/useAlert';
 import Title from './Title';
 import DateInput from './DateInput';
 import { Box, Button } from '@mui/material';
 import IngredientAPI from '../services/ingredient.api.services';
-// import Autocomplete from '@mui/material/Autocomplete';
-// import CircularProgress from '@mui/material/CircularProgress';
+import LotAPI from '../services/lot.api.service';
+import BoxAPI from '../services/box.api.service';
+import FetchingSelect from './FetchingSelect';
 
 export default function NftSelect({
   customerRole,
@@ -26,59 +25,52 @@ export default function NftSelect({
   nftBasicIngredientID,
   handleNFTBasicIngredientChange,
   onChangeFile,
+  uploadFile,
+  handleChangeLot,
+  lot,
+  hash,
+  handleChangeHash,
+  handleNftReboxedQuantityChange,
+  handleCountrySelection,
 }) {
   const { showErrorAlert } = useAlert();
 
+  const [countries, setCountries] = useState([]);
   const [nftBasicIngredients, setNftBasicIngredients] = useState([]);
+  const [productNames, setProductNames] = useState([]);
+  const [boxes, setBoxes] = useState([]);
 
-  const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
-
-  function handleChangeLot(event, newValue) {
-    setLot(newValue);
-  }
-
-  function handleChangeHash(event, newValue) {
-    setHash(newValue);
-  }
-
-  function handleNftReboxedQuantityChange(event) {
-    const value = event.target.value;
-    setNftReboxedQuantity(value);
+  function getCountry(country) {
+    setCountries(country);
   }
 
   useEffect(() => {
-    if (customerId) {
+    if (customerId && customerRole === roles[1]) {
       IngredientAPI.getIngredients(customerId)
         .then((result) => {
           setNftBasicIngredients(result.items);
         })
         .catch((err) => showErrorAlert(err.response.data.message));
+    } else if (customerId && customerRole === roles[2]) {
+      LotAPI.getProductNameById(customerId)
+        .then((result) => {
+          setProductNames(result.items);
+        })
+        .catch((err) => showErrorAlert(err.response.data.message));
     }
-  }, [customerId, showErrorAlert]);
+  }, [customerId, customerRole, roles, showErrorAlert]);
 
-  // useEffect(() => {
-  //   if (lot) {
-  //     BoxAPI.getBoxByLotAndCustomerID(lot, customerId)
-  //       .then((result) => {
-  //         setBox(result.items);
-  //       })
-  //       .catch((err) => {
-  //         showErrorAlert(err.response.data.message);
-  //       });
-  //   }
-  // }, [customerId, lot, showErrorAlert]);
-
-  // useEffect(() => {
-  //   if (hash) {
-  //     BoxAPI.getBoxImage(hash)
-  //       .then((result) => {
-  //         console.log(result);
-  //       })
-  //       .catch((err) => {
-  //         showErrorAlert(err.response.data.message);
-  //       });
-  //   }
-  // }, [hash, showErrorAlert]);
+  useEffect(() => {
+    if (lot) {
+      BoxAPI.getBoxByLotAndCustomerID(lot, customerId)
+        .then((result) => {
+          setBoxes(result.items);
+        })
+        .catch((err) => {
+          showErrorAlert(err.response.data.message);
+        });
+    }
+  }, [customerId, lot, showErrorAlert]);
 
   return (
     <>
@@ -176,6 +168,7 @@ export default function NftSelect({
               fullWidth
               name="file"
               id="file"
+              value={uploadFile}
               placeholder={'NFTLeaflet (XML file with tags for any languages available)'}
               size="small"
               sx={{ mb: 1, mt: 1 }}
@@ -190,23 +183,30 @@ export default function NftSelect({
       {customerRole === roles[2] && (
         <>
           <Title>NFT re-boxing</Title>
+          <FetchingSelect
+            id={'country'}
+            label={'New Country'}
+            type={'getCountry'}
+            getItems={getCountry}
+            handleSelect={handleCountrySelection}
+          ></FetchingSelect>
           <TextField
-            id="productName"
-            name="productName"
+            id="productNames"
+            name="productNames"
             select
             size="small"
             fullWidth
             label="NFTProductName"
-            defaultValue=""
+            value={lot}
             onChange={handleChangeLot}
             required
             sx={{ mb: 1, mt: 1 }}
           >
-            {/* {productName.map((lot) => (
+            {productNames.map((lot) => (
               <MenuItem key={lot.id} value={lot.id}>
                 {lot.name}
               </MenuItem>
-            ))} */}
+            ))}
           </TextField>
           <TextField
             id="nftBox"
@@ -215,16 +215,16 @@ export default function NftSelect({
             size="small"
             fullWidth
             label="NFTLotNumber"
-            defaultValue=""
+            value={hash}
             onChange={handleChangeHash}
             required
             sx={{ mb: 1, mt: 1 }}
           >
-            {/* {box.map((box) => (
+            {boxes.map((box) => (
               <MenuItem key={box.index} value={box.hash}>
                 {box.hash}
               </MenuItem>
-            ))} */}
+            ))}
           </TextField>
           <TextField
             id="nftReboxedQuantity"
@@ -232,7 +232,6 @@ export default function NftSelect({
             size="small"
             fullWidth
             label="NFTReboxedQuantity"
-            value={nftReboxedQuantity}
             onChange={handleNftReboxedQuantityChange}
             required
             sx={{ mb: 1, mt: 1 }}

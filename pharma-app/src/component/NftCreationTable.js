@@ -44,7 +44,6 @@ function filterCustomers(array, role, onCustomerClick, customerName) {
       return customer.role === role;
     })
     .map((filteredCustomer) => {
-      console.log('filteredCustomer: ', filteredCustomer);
       return (
         <StyledTableRow
           key={filteredCustomer.name}
