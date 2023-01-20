@@ -3,10 +3,10 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import ResourceAPI from '../services/resource.api.service';
 import ContextAPI from '../services/context.api.service';
+import CountryAutocomplete from './CountryAutocomplete';
 
 export default function FetchingSelect({ id, label, type, getItems, handleSelect }) {
   const [items, setItems] = useState([]);
-
   function handleChange(event) {
     const value = event.target.value;
     const item = items.find((elem) => Object.values(elem).includes(value));
@@ -29,14 +29,13 @@ export default function FetchingSelect({ id, label, type, getItems, handleSelect
       ResourceAPI.getCountry()
         .then((result) => {
           setItems(result.items);
-          getItems(result.items);
         })
         .catch((err) => {
           throw new Error(err);
         });
     }
   }, []);
-  return (
+  return type == 'getContext' ? (
     <TextField
       id={id}
       name={id}
@@ -55,5 +54,12 @@ export default function FetchingSelect({ id, label, type, getItems, handleSelect
         </MenuItem>
       ))}
     </TextField>
+  ) : (
+    <CountryAutocomplete
+      id={id}
+      label={label}
+      country={items}
+      handleChangeCountry={handleSelect}
+    ></CountryAutocomplete>
   );
 }
