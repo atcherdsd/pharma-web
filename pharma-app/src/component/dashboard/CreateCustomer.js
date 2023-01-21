@@ -13,7 +13,6 @@ import useAlert from '../../hooks/useAlert';
 export default function CreateCustomer() {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
-  const [countries, setCountries] = useState([]);
   const [contextId, setContextId] = useState('');
   const [countryCode, setCountryCode] = useState('');
   const [uploadFile, setUploadFile] = useState('');
@@ -23,22 +22,19 @@ export default function CreateCustomer() {
 
   function cleanUp() {
     form.current.reset();
+    setUploadFile('');
   }
 
   function getContext(contexts) {
     setContexts(contexts);
   }
 
-  function getCountry(country) {
-    setCountries(country);
-  }
-
   function handleContextSelection(id) {
     setContextId(id);
   }
 
-  function handleCountrySelection(code) {
-    setCountryCode(code);
+  function handleCountrySelection(event, newValue) {
+    setCountryCode(newValue);
   }
 
   function onChange(event) {
@@ -57,7 +53,7 @@ export default function CreateCustomer() {
     if (password === confirmPassword) {
       setCheckPassword(true);
       try {
-        await CustomerAPI.postCustomer(createCustomerBody(data, contexts, countries));
+        await CustomerAPI.postCustomer(createCustomerBody(data, contexts, countryCode.code));
         cleanUp();
         showSuccessAlert('Successfully added');
       } catch (err) {
@@ -108,7 +104,6 @@ export default function CreateCustomer() {
               label={'Country of Residence'}
               type={'getCountry'}
               key={index}
-              getItems={getCountry}
               handleSelect={handleCountrySelection}
             ></FetchingSelect>
           ) : input.id == 'document' ? (

@@ -25,8 +25,12 @@ const NftReqBurn = () => {
   const [hash, setHash] = useState('');
   const [productName, setProductName] = useState([]);
   const [box, setBox] = useState([]);
+  const [loadingProduct, setLoadingProduct] = useState(false);
 
   function handleChangeLot(event, newValue) {
+    if (!newValue) {
+      setHash(null);
+    }
     setLot(newValue);
   }
 
@@ -49,17 +53,19 @@ const NftReqBurn = () => {
 
   useEffect(() => {
     if (customerId) {
+      setLoadingProduct(true);
       LotAPI.getProductNameById(customerId)
         .then((result) => {
           setProductName(result.items);
         })
         .catch((err) => showErrorAlert(err.response.data.message));
+      setLoadingProduct(false);
     }
   }, [customerId, showErrorAlert]);
 
   useEffect(() => {
     if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId)
+      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId, 1)
         .then((result) => {
           setBox(result.items);
         })
@@ -119,6 +125,7 @@ const NftReqBurn = () => {
           productName={productName}
           box={box}
           lot={lot}
+          loadingProduct={loadingProduct}
         ></SelectProductName>
         {hash && (
           <Card sx={{ maxWidth: 185, margin: '0 auto' }}>

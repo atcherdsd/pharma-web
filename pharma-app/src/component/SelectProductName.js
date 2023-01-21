@@ -1,7 +1,7 @@
 // import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-// import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 // import Box from '@mui/material/Box';
 
 export default function SelectProductName({
@@ -10,6 +10,7 @@ export default function SelectProductName({
   productName,
   box,
   lot,
+  loadingProduct,
 }) {
   const defaultLotProps = {
     options: productName,
@@ -28,7 +29,20 @@ export default function SelectProductName({
         required
         onChange={handleChangeLot}
         renderInput={(params) => (
-          <TextField {...params} label="NFTProductName" variant="standard" />
+          <TextField
+            {...params}
+            label="NFTProductName"
+            variant="standard"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loadingProduct ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
         )}
       />
       {lot && (

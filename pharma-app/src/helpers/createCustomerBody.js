@@ -1,10 +1,10 @@
-export default function createCustomerBody(data, contexts, countries) {
+export default function createCustomerBody(data, contexts, countryCode) {
   return {
     context: findUuid(data.get('context'), contexts),
     role: data.get('role'),
     name: data.get('name'),
     type: data.get('type'),
-    country: findCountry(data.get('country'), countries),
+    country: countryCode,
     city: data.get('city'),
     province: data.get('province') || null,
     address: data.get('address'),
@@ -23,8 +23,8 @@ function findUuid(context, contexts) {
   }).id;
 }
 
-function findCountry(country, countries) {
-  return countries.find((countryItem) => {
-    return countryItem.name == country;
-  }).code;
-}
+// function findCountry(country, countries) {
+//   return countries.find((countryItem) => {
+//     return countryItem.name == country;
+//   }).code;
+// }

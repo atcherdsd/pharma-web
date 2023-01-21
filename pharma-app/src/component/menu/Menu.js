@@ -57,7 +57,7 @@ export default function Menu({ open, toggleDrawer }) {
         <MenuItem text="New customer" icon={<DashboardIcon />} route="/dashboard/add-customer" />
         <MenuItem text="NFT creation" icon={<DashboardIcon />} route="/dashboard/nft-creation" />
         <MenuItem
-          text="Request NFT Burn"
+          text="NFT Request Burn"
           icon={<DashboardIcon />}
           route="/dashboard/nft-req-burn"
         />
