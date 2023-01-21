@@ -7,4 +7,5 @@ export default class BoxAPI {
   static getBoxImage = (hash) => apiClient.get(`/box/${hash}/qr`);
   static rebox = (hash, reboxData) => apiClient.put(`/box/${hash}/rebox`, reboxData);
   static freeze = (hash, customer) => apiClient.put(`/box/${hash}/freeze`, { customer });
+  static burn = (hash, customer) => apiClient.put(`/box/${hash}/burn`, { customer });
 }
