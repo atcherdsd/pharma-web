@@ -28,6 +28,13 @@ export default function SelectProductName({
         id="lotName"
         required
         onChange={handleChangeLot}
+        renderOption={(props, option) => {
+          return (
+            <li {...props} key={option.id}>
+              {option.name}
+            </li>
+          );
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
