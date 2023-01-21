@@ -77,11 +77,20 @@ export default function NftCreationTable({
   return (
     <React.Fragment>
       <Title>
-        {roles.includes('supplier') && !roles.includes('reseller')
-          ? 'Select the NFT issuer'
-          : !roles.includes('supplier') && roles.includes('reseller')
-          ? 'Select the customer'
-          : 'Select the NFT owner/author'}
+        {Array.isArray(roles) &&
+          roles.includes('supplier') &&
+          !roles.includes('reseller') &&
+          'Select the NFT issuer'}
+        {Array.isArray(roles) &&
+          !roles.includes('supplier') &&
+          roles.includes('reseller') &&
+          'Select the customer'}
+        {Array.isArray(roles) &&
+          !roles.includes('supplier') &&
+          roles.includes('reseller') &&
+          'Select the NFT owner/author'}
+        {!Array.isArray(roles) && roleValue === 'supplier' && 'Select supplier'}
+        {!Array.isArray(roles) && roleValue === 'producer' && 'Select producer'}
       </Title>
       <Table
         size="small"
@@ -89,6 +98,8 @@ export default function NftCreationTable({
           border: '1px solid grey',
           borderRadius: '5px',
           borderCollapse: 'inherit',
+          mt: 2,
+          mb: 3,
         }}
       >
         <TableHead>

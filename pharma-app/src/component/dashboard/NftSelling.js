@@ -152,7 +152,7 @@ const NftSelling = () => {
           customerName={customerName}
           roles={nftRequestTransferDistRoles}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
           TRANSFER NFT
         </Button>
       </Box>

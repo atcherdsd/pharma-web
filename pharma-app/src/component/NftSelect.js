@@ -19,17 +19,9 @@ import IngredientAPI from '../services/ingredient.api.services';
 import LotAPI from '../services/lot.api.service';
 import BoxAPI from '../services/box.api.service';
 import FetchingSelect from './FetchingSelect';
+import { getStyles } from '../helpers/utils';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
-
-function getStyles(name, personName, theme) {
-  return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 export default function NftSelect({
   customerRole,
@@ -40,7 +32,6 @@ export default function NftSelect({
   expiringDate,
   customerId,
   handleNftQuantityChange,
-  // handleNftBoxChange,
   handleProductNameChange,
   handleProductDescriptionChange,
   nftBasicIngredientID,
@@ -51,7 +42,6 @@ export default function NftSelect({
   lot,
   hash,
   handleChangeHash,
-  // handleNftReboxedQuantityChange,
   handleCountrySelection,
 }) {
   const { showErrorAlert } = useAlert();
@@ -132,16 +122,6 @@ export default function NftSelect({
       {customerRole === roles[1] && (
         <>
           <Title>Fill the NFT Product attributes</Title>
-          {/* <TextField
-            id="nftBox"
-            name="nftBox"
-            size="small"
-            fullWidth
-            label="NFTBox"
-            onChange={handleNftBoxChange}
-            required
-            sx={{ mb: 1, mt: 1 }}
-          /> */}
           <TextField
             id="nftQuantity"
             name="nftQuantity"
@@ -149,6 +129,7 @@ export default function NftSelect({
             fullWidth
             label="NFTQuantity"
             onChange={handleNftQuantityChange}
+            onInput={handleNftQuantityChange}
             required
             sx={{ mb: 1, mt: 1 }}
           />
@@ -255,16 +236,6 @@ export default function NftSelect({
               </MenuItem>
             ))}
           </TextField>
-          {/* <TextField
-            id="nftReboxedQuantity"
-            name="nftReboxedQuantity"
-            size="small"
-            fullWidth
-            label="NFTReboxedQuantity"
-            onChange={handleNftReboxedQuantityChange}
-            required
-            sx={{ mb: 1, mt: 1 }}
-          /> */}
           {hash && (
             <Card sx={{ maxWidth: 185, margin: '0 auto' }}>
               <CardMedia

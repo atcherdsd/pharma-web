@@ -8,6 +8,7 @@ import useAlert from '../../hooks/useAlert';
 import IngredientAPI from '../../services/ingredient.api.services';
 import LotAPI from '../../services/lot.api.service';
 import BoxAPI from '../../services/box.api.service';
+import createLotData from '../../helpers/createLotData';
 
 const NftCreation = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -58,7 +59,7 @@ const NftCreation = () => {
 
   // Producer
 
-  const [nftQuantity, setNftQuantity] = useState();
+  const [nftQuantity, setNftQuantity] = useState(null);
   const [nftProductName, setNftProductName] = useState();
   const [productDescription, setProductDescription] = useState('');
   const [nftBasicIngredientID, setNftBasicIngredientID] = useState([]);
@@ -84,18 +85,6 @@ const NftCreation = () => {
     let index = file.indexOf('fakepath');
     let fileName = file.slice(index + 9);
     setUploadFile(fileName);
-  }
-
-  function createLotData(customerId, data, expiringDate, nftBasicIngredientID) {
-    return {
-      customer: customerId,
-      name: data.get('productName'),
-      boxes: data.get('nftQuantity'),
-      description: data.get('productDescription'),
-      expires: expiringDate,
-      leaflet: data.get('fileUpload'),
-      ingredients: nftBasicIngredientID,
-    };
   }
 
   // Distributor
@@ -160,7 +149,7 @@ const NftCreation = () => {
       setIngredientName('');
       setIngredientDescription('');
     } else if (customerRole === nftCreationCustomerRoles[1]) {
-      setNftQuantity('');
+      setNftQuantity(null);
       setNftProductName('');
       setProductDescription('');
       setNftBasicIngredientID([]);
