@@ -84,7 +84,7 @@ export default function NftSelect({
 
   useEffect(() => {
     if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot, customerId)
+      BoxAPI.getBoxByLotAndCustomerID(lot, customerId, 1)
         .then((result) => {
           setBoxes(result.items);
         })

@@ -45,7 +45,7 @@ const NftCreation = () => {
     setIngredientDescription(event.target.value);
   }
   function handleExpiringDateChange(value) {
-    setExpiringDate(value);
+    setExpiringDate(value.toISOString());
   }
 
   const ingredientData = {
@@ -108,6 +108,7 @@ const NftCreation = () => {
   const [countryCode, setCountryCode] = useState('');
 
   function handleChangeLot(event) {
+    if (!event.target.value) setHash(null);
     setLot(event.target.value);
   }
   function handleChangeHash(event) {
