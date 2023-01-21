@@ -4,11 +4,21 @@ import MenuItem from '@mui/material/MenuItem';
 import useAlert from '../hooks/useAlert';
 import Title from './Title';
 import DateInput from './DateInput';
-import { Box, Button } from '@mui/material';
+import { Box, Button, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import IngredientAPI from '../services/ingredient.api.services';
 import LotAPI from '../services/lot.api.service';
 import BoxAPI from '../services/box.api.service';
 import FetchingSelect from './FetchingSelect';
+
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
 
 export default function NftSelect({
   customerRole,
@@ -19,7 +29,7 @@ export default function NftSelect({
   expiringDate,
   customerId,
   handleNftQuantityChange,
-  handleNftBoxChange,
+  // handleNftBoxChange,
   handleProductNameChange,
   handleProductDescriptionChange,
   nftBasicIngredientID,
@@ -34,6 +44,7 @@ export default function NftSelect({
   handleCountrySelection,
 }) {
   const { showErrorAlert } = useAlert();
+  const theme = useTheme();
 
   const [countries, setCountries] = useState([]);
   const [nftBasicIngredients, setNftBasicIngredients] = useState([]);
@@ -102,7 +113,7 @@ export default function NftSelect({
       {customerRole === roles[1] && (
         <>
           <Title>Fill the NFT Product attributes</Title>
-          <TextField
+          {/* <TextField
             id="nftBox"
             name="nftBox"
             size="small"
@@ -111,7 +122,7 @@ export default function NftSelect({
             onChange={handleNftBoxChange}
             required
             sx={{ mb: 1, mt: 1 }}
-          />
+          /> */}
           <TextField
             id="nftQuantity"
             name="nftQuantity"
@@ -142,25 +153,31 @@ export default function NftSelect({
             required
             sx={{ mb: 1, mt: 1 }}
           />
-          <TextField
-            id="nftBasicIngredients"
-            name="nftBasicIngredients"
-            select
-            size="small"
-            fullWidth
-            label="NFTBasicIngredients"
-            defaultValue=""
-            value={nftBasicIngredientID}
-            onChange={handleNFTBasicIngredientChange}
-            required
-            sx={{ mb: 1, mt: 1 }}
-          >
-            {nftBasicIngredients.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </TextField>
+          <FormControl fullWidth sx={{ mb: 1, mt: 1 }} required>
+            <InputLabel sx={{ top: '-0.25rem' }} id="multiple-name">
+              NFTBasicIngredients
+            </InputLabel>
+            <Select
+              labelId="multiple-name"
+              id="nftBasicIngredients"
+              name="nftBasicIngredients"
+              multiple
+              size="small"
+              value={nftBasicIngredientID}
+              onChange={handleNFTBasicIngredientChange}
+              input={<OutlinedInput label="NFTBasicIngredients" />}
+            >
+              {nftBasicIngredients.map((item) => (
+                <MenuItem
+                  key={item.id}
+                  value={item.id}
+                  style={getStyles(item, nftBasicIngredientID, theme)}
+                >
+                  {item.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <Box sx={{ display: 'flex', gap: '1rem' }} required>
             <TextField
               margin="normal"
@@ -169,7 +186,7 @@ export default function NftSelect({
               name="file"
               id="file"
               value={uploadFile}
-              placeholder={'NFTLeaflet (XML file with tags for any languages available)'}
+              label={'NFTLeaflet (XML file with tags for any languages available)'}
               size="small"
               sx={{ mb: 1, mt: 1 }}
             />

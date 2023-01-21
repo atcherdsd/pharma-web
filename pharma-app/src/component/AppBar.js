@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Menu, MenuItem } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
@@ -85,16 +83,6 @@ export default function AppBar({ open, toggleDrawer }) {
         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
           Dashboard
         </Typography>
-        <IconButton
-          color="inherit"
-          sx={{
-            marginLeft: '12px',
-          }}
-        >
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
         <IconButton
           sx={{
             marginLeft: '12px',

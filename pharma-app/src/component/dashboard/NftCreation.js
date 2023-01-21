@@ -58,16 +58,16 @@ const NftCreation = () => {
 
   // Producer
 
-  const [nftBox, setNftBox] = useState();
+  // const [nftBox, setNftBox] = useState();
   const [nftQuantity, setNftQuantity] = useState();
   const [nftProductName, setNftProductName] = useState();
   const [productDescription, setProductDescription] = useState('');
-  const [nftBasicIngredientID, setNftBasicIngredientID] = useState('');
+  const [nftBasicIngredientID, setNftBasicIngredientID] = useState([]);
   const [uploadFile, setUploadFile] = useState('');
 
-  function handleNftBoxChange(event) {
-    setNftBox(event.target.value);
-  }
+  // function handleNftBoxChange(event) {
+  //   setNftBox(event.target.value);
+  // }
   function handleNftQuantityChange(event) {
     setNftQuantity(event.target.value);
   }
@@ -78,7 +78,10 @@ const NftCreation = () => {
     setProductDescription(event.target.value);
   }
   function handleNFTBasicIngredientChange(event) {
-    setNftBasicIngredientID(event.target.value);
+    const {
+      target: { value },
+    } = event;
+    setNftBasicIngredientID(typeof value === 'string' ? value.split(',') : value);
   }
   function onChangeFile(event) {
     let file = event.target.value;
@@ -94,7 +97,7 @@ const NftCreation = () => {
     description: productDescription,
     expires: expiringDate,
     leaflet: uploadFile,
-    ingredients: [nftBasicIngredientID],
+    ingredients: nftBasicIngredientID,
   };
 
   // Distributor
@@ -161,7 +164,7 @@ const NftCreation = () => {
       setIngredientName('');
       setIngredientDescription('');
     } else if (customerRole === nftCreationCustomerRoles[1]) {
-      setNftBox('');
+      // setNftBox('');
       setNftQuantity('');
       setNftProductName('');
       setProductDescription('');
@@ -205,7 +208,7 @@ const NftCreation = () => {
           expiringDate={expiringDate}
           customerId={customerId}
           handleNftQuantityChange={handleNftQuantityChange}
-          handleNftBoxChange={handleNftBoxChange}
+          // handleNftBoxChange={handleNftBoxChange}
           handleProductNameChange={handleProductNameChange}
           handleProductDescriptionChange={handleProductDescriptionChange}
           nftBasicIngredientID={nftBasicIngredientID}
