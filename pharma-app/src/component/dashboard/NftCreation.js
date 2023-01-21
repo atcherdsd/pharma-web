@@ -102,28 +102,28 @@ const NftCreation = () => {
 
   // Distributor
 
-  const [countryCode, setCountryCode] = useState('');
   const [lot, setLot] = useState('');
   const [hash, setHash] = useState('');
-  const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
+  // const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
+  const [countryCode, setCountryCode] = useState('');
 
-  function handleCountrySelection(code) {
-    setCountryCode(code);
-  }
   function handleChangeLot(event) {
     setLot(event.target.value);
   }
   function handleChangeHash(event) {
     setHash(event.target.value);
   }
-  function handleNftReboxedQuantityChange(event) {
-    setNftReboxedQuantity(event.target.value);
+  // function handleNftReboxedQuantityChange(event) {
+  //   setNftReboxedQuantity(event.target.value);
+  // }
+  function handleCountrySelection(code) {
+    setCountryCode(code);
   }
 
   const reboxData = {
     customer: customerId,
-    country: countryCode,
     expires: expiringDate,
+    country: countryCode,
   };
 
   // Submit
@@ -174,7 +174,7 @@ const NftCreation = () => {
       setCountryCode('');
       setLot('');
       setHash('');
-      setNftReboxedQuantity('');
+      // setNftReboxedQuantity('');
     }
     setExpiringDate(null);
   }
@@ -220,7 +220,7 @@ const NftCreation = () => {
           lot={lot}
           hash={hash}
           handleChangeHash={handleChangeHash}
-          handleNftReboxedQuantityChange={handleNftReboxedQuantityChange}
+          // handleNftReboxedQuantityChange={handleNftReboxedQuantityChange}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           NFT GENERATION

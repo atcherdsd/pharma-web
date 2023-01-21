@@ -4,12 +4,23 @@ import MenuItem from '@mui/material/MenuItem';
 import useAlert from '../hooks/useAlert';
 import Title from './Title';
 import DateInput from './DateInput';
-import { Box, Button, FormControl, InputLabel, OutlinedInput, Select } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  Select,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import IngredientAPI from '../services/ingredient.api.services';
 import LotAPI from '../services/lot.api.service';
 import BoxAPI from '../services/box.api.service';
 import FetchingSelect from './FetchingSelect';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 function getStyles(name, personName, theme) {
   return {
@@ -40,7 +51,7 @@ export default function NftSelect({
   lot,
   hash,
   handleChangeHash,
-  handleNftReboxedQuantityChange,
+  // handleNftReboxedQuantityChange,
   handleCountrySelection,
 }) {
   const { showErrorAlert } = useAlert();
@@ -82,6 +93,14 @@ export default function NftSelect({
         });
     }
   }, [customerId, lot, showErrorAlert]);
+
+  useEffect(() => {
+    if (hash) {
+      BoxAPI.getBoxImage(hash).catch((err) => {
+        showErrorAlert(err.response.data.message);
+      });
+    }
+  }, [hash, showErrorAlert]);
 
   return (
     <>
@@ -200,13 +219,6 @@ export default function NftSelect({
       {customerRole === roles[2] && (
         <>
           <Title>NFT re-boxing</Title>
-          <FetchingSelect
-            id={'country'}
-            label={'New Country'}
-            type={'getCountry'}
-            getItems={getCountry}
-            handleSelect={handleCountrySelection}
-          ></FetchingSelect>
           <TextField
             id="productNames"
             name="productNames"
@@ -243,7 +255,7 @@ export default function NftSelect({
               </MenuItem>
             ))}
           </TextField>
-          <TextField
+          {/* <TextField
             id="nftReboxedQuantity"
             name="nftReboxedQuantity"
             size="small"
@@ -252,7 +264,25 @@ export default function NftSelect({
             onChange={handleNftReboxedQuantityChange}
             required
             sx={{ mb: 1, mt: 1 }}
-          />
+          /> */}
+          {hash && (
+            <Card sx={{ maxWidth: 185, margin: '0 auto' }}>
+              <CardMedia
+                component="img"
+                width="164"
+                height="164"
+                image={`${baseURL}/box/${hash}/qr`}
+                alt="QR"
+              />
+            </Card>
+          )}
+          <FetchingSelect
+            id={'country'}
+            label={'New Country'}
+            type={'getCountry'}
+            getItems={getCountry}
+            handleSelect={handleCountrySelection}
+          ></FetchingSelect>
         </>
       )}
       <DateInput
