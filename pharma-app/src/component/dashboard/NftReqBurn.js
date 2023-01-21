@@ -86,12 +86,14 @@ const NftReqBurn = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setDisabled(true);
-    try {
-      await BoxAPI.freeze(hash.hash, hash.customer);
-      showSuccessAlert('Request successfully sent');
-      cleanUp();
-    } catch (err) {
-      showErrorAlert(err.response.data.message);
+    if (hash) {
+      try {
+        await BoxAPI.freeze(hash.hash, hash.customer);
+        showSuccessAlert('Request successfully sent');
+        cleanUp();
+      } catch (err) {
+        showErrorAlert(err.response.data.message);
+      }
     }
     setDisabled(false);
   }
