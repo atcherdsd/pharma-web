@@ -2,7 +2,8 @@ import Paper from '@mui/material/Paper';
 import { Box, Button } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useRef, useState, useEffect } from 'react';
-import { nftBurningCustomerRoles } from '../../helpers/customerRoles';
+import { nftRequestTransferOwnerRoles } from '../../helpers/customerRoles';
+import { nftRequestTransferDistRoles } from '../../helpers/customerRoles';
 import useAlert from '../../hooks/useAlert';
 import BoxAPI from '../../services/box.api.service';
 import LotAPI from '../../services/lot.api.service';
@@ -18,7 +19,7 @@ const NftSelling = () => {
   const form = useRef(null);
   const [disabled, setDisabled] = useState(false);
   const [contextId, setContextId] = useState(null);
-  const [customerRole, setCustomerRole] = useState(nftBurningCustomerRoles[0]);
+  const [customerRole, setCustomerRole] = useState(nftRequestTransferOwnerRoles[0]);
   const [customerName, setCustomerName] = useState('');
   const [customerId, setCustomerId] = useState('');
   const [lot, setLot] = useState('');
@@ -86,15 +87,15 @@ const NftSelling = () => {
   async function handleSubmit(event) {
     event.preventDefault();
     setDisabled(true);
-    if (hash) {
-      try {
-        await BoxAPI.burn(hash.hash, hash.customer);
-        showSuccessAlert('NFT successfully selling');
-        cleanUp();
-      } catch (err) {
-        showErrorAlert(err.response.data.message);
-      }
-    }
+    // if (hash) {
+    //   try {
+    //     await BoxAPI.burn(hash.hash, hash.customer);
+    //     showSuccessAlert('NFT successfully selling');
+    //     cleanUp();
+    //   } catch (err) {
+    //     showErrorAlert(err.response.data.message);
+    //   }
+    // }
     setDisabled(false);
   }
   function cleanUp() {
@@ -118,7 +119,7 @@ const NftSelling = () => {
           onRoleChange={onRoleChange}
           onCustomerSelect={onCustomerSelect}
           customerName={customerName}
-          roles={nftBurningCustomerRoles}
+          roles={nftRequestTransferOwnerRoles}
         />
         <Title sx={{ mb: 1, mt: 2 }}>Select a specific NFT</Title>
         <SelectProductName
@@ -140,8 +141,19 @@ const NftSelling = () => {
             />
           </Card>
         )}
+        <Title sx={{ mb: 1, mt: 2 }}>Select NFT destination</Title>
+        <CustomerSelect
+          setDisabled={setDisabled}
+          contextId={contextId}
+          handleContextSelection={handleContextSelection}
+          customerRole={customerRole}
+          onRoleChange={onRoleChange}
+          onCustomerSelect={onCustomerSelect}
+          customerName={customerName}
+          roles={nftRequestTransferDistRoles}
+        />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
-          BURN
+          TRANSFER NFT
         </Button>
       </Box>
     </Paper>
