@@ -1,8 +1,8 @@
 import apiClient from '../http/apiClient';
 
 export default class BoxAPI {
-  static getBoxByLotAndCustomerID = (lotId, customerId) =>
-    apiClient.get(`/box?lot=${lotId}&customer=${customerId}&status=1&limit=50
+  static getBoxByLotAndCustomerID = (lotId, customerId, status) =>
+    apiClient.get(`/box?lot=${lotId}&customer=${customerId}&status=${status}&limit=50
   `);
   static getBoxImage = (hash) => apiClient.get(`/box/${hash}/qr`);
   static rebox = (hash, reboxData) => apiClient.put(`/box/${hash}/rebox`, reboxData);

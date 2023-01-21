@@ -65,7 +65,7 @@ const NftReqBurn = () => {
 
   useEffect(() => {
     if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId)
+      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId, 1)
         .then((result) => {
           setBox(result.items);
         })
