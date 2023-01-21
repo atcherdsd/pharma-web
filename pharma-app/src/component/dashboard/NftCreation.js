@@ -58,23 +58,12 @@ const NftCreation = () => {
 
   // Producer
 
-  // const [nftBox, setNftBox] = useState();
   const [nftQuantity, setNftQuantity] = useState();
   const [nftProductName, setNftProductName] = useState();
   const [productDescription, setProductDescription] = useState('');
   const [nftBasicIngredientID, setNftBasicIngredientID] = useState([]);
   const [uploadFile, setUploadFile] = useState('');
 
-  console.log('nftBasicIngredientID: ', nftBasicIngredientID);
-  console.log('nftQuantity: ', nftQuantity);
-  console.log('nftProductName: ', nftProductName);
-  console.log('productDescription: ', productDescription);
-  console.log('uploadFile: ', uploadFile);
-  console.log('expiringDate: ', expiringDate);
-
-  // function handleNftBoxChange(event) {
-  //   setNftBox(event.target.value);
-  // }
   function handleNftQuantityChange(event) {
     setNftQuantity(event.target.value);
   }
@@ -108,21 +97,11 @@ const NftCreation = () => {
       ingredients: nftBasicIngredientID,
     };
   }
-  // const lotData = {
-  //   customer: customerId,
-  //   name: nftProductName,
-  //   boxes: nftQuantity,
-  //   description: productDescription,
-  //   expires: expiringDate,
-  //   leaflet: uploadFile,
-  //   ingredients: nftBasicIngredientID,
-  // };
 
   // Distributor
 
   const [lot, setLot] = useState('');
   const [hash, setHash] = useState('');
-  // const [nftReboxedQuantity, setNftReboxedQuantity] = useState('');
   const [countryCode, setCountryCode] = useState('');
 
   function handleChangeLot(event) {
@@ -132,9 +111,6 @@ const NftCreation = () => {
   function handleChangeHash(event) {
     setHash(event.target.value);
   }
-  // function handleNftReboxedQuantityChange(event) {
-  //   setNftReboxedQuantity(event.target.value);
-  // }
   function handleCountrySelection(code) {
     setCountryCode(code);
   }
@@ -184,17 +160,15 @@ const NftCreation = () => {
       setIngredientName('');
       setIngredientDescription('');
     } else if (customerRole === nftCreationCustomerRoles[1]) {
-      // setNftBox('');
       setNftQuantity('');
       setNftProductName('');
       setProductDescription('');
-      setNftBasicIngredientID('');
+      setNftBasicIngredientID([]);
       setUploadFile('');
     } else if (customerRole === nftCreationCustomerRoles[2]) {
       setCountryCode('');
       setLot('');
       setHash('');
-      // setNftReboxedQuantity('');
     }
     setExpiringDate(null);
   }
@@ -228,7 +202,6 @@ const NftCreation = () => {
           expiringDate={expiringDate}
           customerId={customerId}
           handleNftQuantityChange={handleNftQuantityChange}
-          // handleNftBoxChange={handleNftBoxChange}
           handleProductNameChange={handleProductNameChange}
           handleProductDescriptionChange={handleProductDescriptionChange}
           nftBasicIngredientID={nftBasicIngredientID}
@@ -240,7 +213,6 @@ const NftCreation = () => {
           lot={lot}
           hash={hash}
           handleChangeHash={handleChangeHash}
-          // handleNftReboxedQuantityChange={handleNftReboxedQuantityChange}
         />
         <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
           NFT GENERATION
