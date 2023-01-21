@@ -28,6 +28,9 @@ const NftReqBurn = () => {
   const [loadingProduct, setLoadingProduct] = useState(false);
 
   function handleChangeLot(event, newValue) {
+    if (!newValue) {
+      setHash(null);
+    }
     setLot(newValue);
   }
 
