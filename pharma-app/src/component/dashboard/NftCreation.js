@@ -65,6 +65,13 @@ const NftCreation = () => {
   const [nftBasicIngredientID, setNftBasicIngredientID] = useState([]);
   const [uploadFile, setUploadFile] = useState('');
 
+  console.log('nftBasicIngredientID: ', nftBasicIngredientID);
+  console.log('nftQuantity: ', nftQuantity);
+  console.log('nftProductName: ', nftProductName);
+  console.log('productDescription: ', productDescription);
+  console.log('uploadFile: ', uploadFile);
+  console.log('expiringDate: ', expiringDate);
+
   // function handleNftBoxChange(event) {
   //   setNftBox(event.target.value);
   // }
@@ -90,15 +97,26 @@ const NftCreation = () => {
     setUploadFile(fileName);
   }
 
-  const lotData = {
-    customer: customerId,
-    name: nftProductName,
-    boxes: nftQuantity,
-    description: productDescription,
-    expires: expiringDate,
-    leaflet: uploadFile,
-    ingredients: nftBasicIngredientID,
-  };
+  function createLotData(customerId, data, expiringDate, nftBasicIngredientID) {
+    return {
+      customer: customerId,
+      name: data.get('productName'),
+      boxes: data.get('nftQuantity'),
+      description: data.get('productDescription'),
+      expires: expiringDate,
+      leaflet: data.get('fileUpload'),
+      ingredients: nftBasicIngredientID,
+    };
+  }
+  // const lotData = {
+  //   customer: customerId,
+  //   name: nftProductName,
+  //   boxes: nftQuantity,
+  //   description: productDescription,
+  //   expires: expiringDate,
+  //   leaflet: uploadFile,
+  //   ingredients: nftBasicIngredientID,
+  // };
 
   // Distributor
 
@@ -131,6 +149,7 @@ const NftCreation = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
     setDisabled(true);
     if (customerRole === nftCreationCustomerRoles[0]) {
       try {
@@ -142,7 +161,7 @@ const NftCreation = () => {
       }
     } else if (customerRole === nftCreationCustomerRoles[1]) {
       try {
-        await LotAPI.postLot(lotData);
+        await LotAPI.postLot(createLotData(customerId, data, expiringDate, nftBasicIngredientID));
         showSuccessAlert('NFT successfully generated');
         cleanUp();
       } catch (err) {
