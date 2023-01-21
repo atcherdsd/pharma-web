@@ -57,9 +57,12 @@ const NftBurning = () => {
       LotAPI.getProductNameById(customerId)
         .then((result) => {
           setProductName(result.items);
+          setLoadingProduct(false);
         })
-        .catch((err) => showErrorAlert(err.response.data.message));
-      setLoadingProduct(false);
+        .catch((err) => {
+          showErrorAlert(err.response.data.message);
+          setLoadingProduct(false);
+        });
     }
   }, [customerId, showErrorAlert]);
 

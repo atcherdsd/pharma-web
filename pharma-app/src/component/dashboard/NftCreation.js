@@ -100,14 +100,14 @@ const NftCreation = () => {
   function handleChangeHash(event) {
     setHash(event.target.value);
   }
-  function handleCountrySelection(code) {
-    setCountryCode(code);
+  function handleCountrySelection(event, newValue) {
+    setCountryCode(newValue);
   }
 
   const reboxData = {
     customer: customerId,
     expires: expiringDate,
-    country: countryCode,
+    country: countryCode ? countryCode.code : '',
   };
 
   // Submit
