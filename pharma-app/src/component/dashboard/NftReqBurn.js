@@ -57,12 +57,14 @@ const NftReqBurn = () => {
       LotAPI.getProductNameById(customerId)
         .then((result) => {
           setProductName(result.items);
+          setLoadingProduct(false);
         })
-        .catch((err) => showErrorAlert(err.response.data.message));
-      setLoadingProduct(false);
+        .catch((err) => {
+          showErrorAlert(err.response.data.message);
+          setLoadingProduct(false);
+        });
     }
   }, [customerId, showErrorAlert]);
-
   useEffect(() => {
     if (lot) {
       BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId, 1)
