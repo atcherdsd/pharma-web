@@ -7,6 +7,7 @@ import CreateCustomer from '../component/dashboard/CreateCustomer';
 import NftBurning from '../component/dashboard/NftBurning';
 import NftCreation from '../component/dashboard/NftCreation';
 import NftReqBurn from '../component/dashboard/NftReqBurn';
+import NftSelling from '../component/dashboard/NftSelling';
 
 const paths = {
   restorePassword: 'restore-password',
@@ -15,6 +16,7 @@ const paths = {
   addContext: 'add-context',
   addCustomer: 'add-customer',
   nftCreation: 'nft-creation',
+  nftSelling: 'nft-selling',
   nftReqBurn: 'nft-req-burn',
   nftBurning: 'nft-burning',
 };
@@ -62,6 +64,10 @@ const routes = {
     {
       path: paths.nftCreation,
       element: <NftCreation />,
+    },
+    {
+      path: paths.nftSelling,
+      element: <NftSelling />,
     },
     {
       path: paths.nftReqBurn,
