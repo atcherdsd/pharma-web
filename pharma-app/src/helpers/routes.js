@@ -10,7 +10,7 @@ import TransferIngredient from '../component/dashboard/TransferIngredient';
 import NftReqBurn from '../component/dashboard/NftReqBurn';
 import NftSelling from '../component/dashboard/NftSelling';
 
-const paths = {
+export const paths = {
   restorePassword: 'restore-password',
   resetPassword: 'reset-password',
   dashboard: 'dashboard',
