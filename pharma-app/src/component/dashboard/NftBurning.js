@@ -153,6 +153,7 @@ const NftBurning = () => {
           loading={disabled}
           loadingPosition="end"
           variant="contained"
+          disabled={disabled}
         >
           <span>BURN</span>
         </LoadingButton>

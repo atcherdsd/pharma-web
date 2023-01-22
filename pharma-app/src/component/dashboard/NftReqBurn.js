@@ -152,6 +152,7 @@ const NftReqBurn = () => {
           loading={disabled}
           loadingPosition="end"
           variant="contained"
+          disabled={disabled}
         >
           <span>REQUEST NFT BURN</span>
         </LoadingButton>

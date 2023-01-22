@@ -6,7 +6,9 @@ import FetchingSelect from '../FetchingSelect';
 import Title from '../Title';
 import CustomerAPI from '../../services/customer.api.service';
 import NftCreationTable from '../NftCreationTable';
-import { Box, Button, MenuItem, TextField } from '@mui/material';
+import { Box, MenuItem, TextField } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const TransferIngredient = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -182,9 +184,18 @@ const TransferIngredient = () => {
           customerName={secondCustomerName}
           roles={customerRoles}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
-          TRANSFER NFT
-        </Button>
+        <LoadingButton
+          sx={{ mt: 2 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+          disabled={disabled}
+        >
+          <span>TRANSFER NFT</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );

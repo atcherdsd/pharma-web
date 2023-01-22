@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper';
-import { Box, Button, Divider } from '@mui/material';
+import { Box, Divider } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useRef, useState } from 'react';
 import { nftCreationCustomerRoles } from '../../helpers/customerRoles';
@@ -9,6 +9,8 @@ import IngredientAPI from '../../services/ingredient.api.services';
 import LotAPI from '../../services/lot.api.service';
 import BoxAPI from '../../services/box.api.service';
 import createLotData from '../../helpers/createLotData';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const NftCreation = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -203,9 +205,18 @@ const NftCreation = () => {
           hash={hash}
           handleChangeHash={handleChangeHash}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
-          NFT GENERATION
-        </Button>
+        <LoadingButton
+          sx={{ mt: 1 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+          disabled={disabled}
+        >
+          <span>NFT GENERATION</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );

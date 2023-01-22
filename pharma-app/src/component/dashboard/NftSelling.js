@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useRef, useState, useEffect } from 'react';
 import { nftRequestTransferOwnerRoles } from '../../helpers/customerRoles';
@@ -22,6 +22,8 @@ import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import { headCellsNftTableData } from '../../helpers/nftTableData';
 import { customerTableColors } from '../../helpers/customerTableColors';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -288,9 +290,18 @@ const NftSelling = () => {
             {distRole && filterCustomers(customers, distRole, onCustomerClick, distName)}
           </TableBody>
         </Table>
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
-          TRANSFER NFT
-        </Button>
+        <LoadingButton
+          sx={{ mt: 2 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+          disabled={disabled}
+        >
+          <span>TRANSFER NFT</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );
