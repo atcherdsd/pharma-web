@@ -26,7 +26,6 @@ export default function SelectProductName({
         sx={{ mb: 1, mt: 1 }}
         {...defaultLotProps}
         id="lotName"
-        required
         isOptionEqualToValue={(option, value) => option.id === value.id}
         onChange={handleChangeLot}
         renderOption={(props, option) => {
@@ -38,6 +37,7 @@ export default function SelectProductName({
         }}
         renderInput={(params) => (
           <TextField
+            required
             {...params}
             label="NFTProductName"
             variant="standard"
@@ -60,7 +60,9 @@ export default function SelectProductName({
           id="hash"
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onChange={handleChangeHash}
-          renderInput={(params) => <TextField {...params} label="NFTBox" variant="standard" />}
+          renderInput={(params) => (
+            <TextField required {...params} label="NFTBox" variant="standard" />
+          )}
         />
       )}
       {/* <TextField
