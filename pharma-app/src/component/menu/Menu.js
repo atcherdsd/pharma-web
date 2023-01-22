@@ -1,5 +1,11 @@
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import AddchartIcon from '@mui/icons-material/Addchart';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+import SellIcon from '@mui/icons-material/Sell';
+import AcUnitIcon from '@mui/icons-material/AcUnit';
+import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -56,33 +62,37 @@ export default function Menu({ open, toggleDrawer }) {
       <List component="nav">
         <MenuItem
           text={menuItemNames.addAContext}
-          icon={<DashboardIcon />}
+          icon={<AddchartIcon />}
           route="/dashboard/add-context"
         />
         <MenuItem
           text={menuItemNames.newCustomer}
-          icon={<DashboardIcon />}
+          icon={<GroupAddIcon />}
           route="/dashboard/add-customer"
         />
         <MenuItem
           text={menuItemNames.nftCreation}
-          icon={<DashboardIcon />}
+          icon={<AddBoxIcon />}
           route="/dashboard/nft-creation"
         />
         <MenuItem
           text={menuItemNames.transferIngredient}
-          icon={<DashboardIcon />}
+          icon={<DriveFileMoveIcon />}
           route="/dashboard/transfer-ingredient"
         />
-        <MenuItem text="NFT selling" icon={<DashboardIcon />} route="/dashboard/nft-selling" />
+        <MenuItem
+          text={menuItemNames.nftSelling}
+          icon={<SellIcon />}
+          route="/dashboard/nft-selling"
+        />
         <MenuItem
           text={menuItemNames.nftRequestBurn}
-          icon={<DashboardIcon />}
+          icon={<AcUnitIcon />}
           route="/dashboard/nft-req-burn"
         />
         <MenuItem
           text={menuItemNames.nftBurning}
-          icon={<DashboardIcon />}
+          icon={<LocalFireDepartmentIcon />}
           route="/dashboard/nft-burning"
         />
       </List>
