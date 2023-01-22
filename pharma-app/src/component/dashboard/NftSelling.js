@@ -18,7 +18,7 @@ const NftSelling = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
   const form = useRef(null);
   const [disabled, setDisabled] = useState(false);
-  const [contextId, setContextId] = useState(null);
+  const [contextId, setContextId] = useState(1);
   const [customerRole, setCustomerRole] = useState(nftRequestTransferOwnerRoles[0]);
   const [customerName, setCustomerName] = useState('');
   const [customerId, setCustomerId] = useState('');

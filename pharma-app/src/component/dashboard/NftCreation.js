@@ -15,7 +15,7 @@ const NftCreation = () => {
   const form = useRef(null);
 
   const [disabled, setDisabled] = useState(false);
-  const [contextId, setContextId] = useState(null);
+  const [contextId, setContextId] = useState(1);
   const [customerRole, setCustomerRole] = useState(nftCreationCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
   const [customerId, setCustomerId] = useState('');
@@ -203,7 +203,7 @@ const NftCreation = () => {
           hash={hash}
           handleChangeHash={handleChangeHash}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
           NFT GENERATION
         </Button>
       </Box>

@@ -17,7 +17,7 @@ const NftBurning = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
   const form = useRef(null);
   const [disabled, setDisabled] = useState(false);
-  const [contextId, setContextId] = useState(null);
+  const [contextId, setContextId] = useState(1);
   const [customerRole, setCustomerRole] = useState(nftBurningCustomerRoles[0]);
   const [customerName, setCustomerName] = useState('');
   const [customerId, setCustomerId] = useState('');
@@ -143,7 +143,7 @@ const NftBurning = () => {
             />
           </Card>
         )}
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
           BURN
         </Button>
       </Box>

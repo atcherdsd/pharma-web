@@ -13,7 +13,7 @@ import useAlert from '../../hooks/useAlert';
 export default function CreateCustomer() {
   const form = useRef(null);
   const [contexts, setContexts] = useState([]);
-  const [contextId, setContextId] = useState('');
+  const [contextId, setContextId] = useState(1);
   const [countryCode, setCountryCode] = useState('');
   const [uploadFile, setUploadFile] = useState('');
   const [checkPassword, setCheckPassword] = useState(true);
@@ -170,7 +170,7 @@ export default function CreateCustomer() {
           size="small"
           sx={{ mb: 1, mt: 1 }}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
+        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
           Add
         </Button>
       </Box>

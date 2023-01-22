@@ -18,7 +18,7 @@ const TransferIngredient = () => {
   };
 
   const [, setContexts] = useState([]);
-  const [contextId, setContextId] = useState(null);
+  const [contextId, setContextId] = useState(1);
   const [disabled, setDisabled] = useState(false);
 
   function getContext(contexts) {

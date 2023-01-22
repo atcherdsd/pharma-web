@@ -12,3 +12,7 @@ export function getStyles(name, personName, theme) {
         : theme.typography.fontWeightMedium,
   };
 }
+
+export function getName(contexts, identifier) {
+  return contexts.find((item) => item.id === identifier).name;
+}
