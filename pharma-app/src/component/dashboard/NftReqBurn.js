@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Paper from '@mui/material/Paper';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import Title from '../Title';
 import SelectProductName from '../SelectProductName';
@@ -10,6 +10,8 @@ import BoxAPI from '../../services/box.api.service';
 import LotAPI from '../../services/lot.api.service';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -142,9 +144,17 @@ const NftReqBurn = () => {
             />
           </Card>
         )}
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 1 }} disabled={disabled}>
-          REQUEST NFT BURN
-        </Button>
+        <LoadingButton
+          sx={{ mt: 1 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+        >
+          <span>REQUEST NFT BURN</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );
