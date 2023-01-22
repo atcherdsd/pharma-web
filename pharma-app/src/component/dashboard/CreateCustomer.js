@@ -9,6 +9,8 @@ import FetchingSelect from '../FetchingSelect';
 import createCustomerBody from '../../helpers/createCustomerBody';
 import CustomerAPI from '../../services/customer.api.service';
 import useAlert from '../../hooks/useAlert';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 export default function CreateCustomer() {
   const form = useRef(null);
@@ -170,9 +172,18 @@ export default function CreateCustomer() {
           size="small"
           sx={{ mb: 1, mt: 1 }}
         />
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
-          Add
-        </Button>
+        <LoadingButton
+          sx={{ mt: 1 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+          disabled={disabled}
+        >
+          <span>Add</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );

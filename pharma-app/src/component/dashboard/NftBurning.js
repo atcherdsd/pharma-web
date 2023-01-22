@@ -1,5 +1,5 @@
 import Paper from '@mui/material/Paper';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
 import { useRef, useState, useEffect } from 'react';
 import { nftBurningCustomerRoles } from '../../helpers/customerRoles';
@@ -10,6 +10,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import SelectProductName from '../SelectProductName';
 import Title from '../Title';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -133,7 +135,7 @@ const NftBurning = () => {
           loadingProduct={loadingProduct}
         ></SelectProductName>
         {hash && (
-          <Card sx={{ maxWidth: 185 }}>
+          <Card sx={{ maxWidth: 185, margin: '0 auto' }}>
             <CardMedia
               component="img"
               width="164"
@@ -143,9 +145,18 @@ const NftBurning = () => {
             />
           </Card>
         )}
-        <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }} disabled={disabled}>
-          BURN
-        </Button>
+        <LoadingButton
+          sx={{ mt: 1 }}
+          type="submit"
+          fullWidth
+          endIcon={<SendIcon />}
+          loading={disabled}
+          loadingPosition="end"
+          variant="contained"
+          disabled={disabled}
+        >
+          <span>BURN</span>
+        </LoadingButton>
       </Box>
     </Paper>
   );
