@@ -229,7 +229,7 @@ const NftSelling = () => {
           loadingProduct={loadingProduct}
         ></SelectProductName>
         {hash && (
-          <Card sx={{ maxWidth: 185 }}>
+          <Card sx={{ maxWidth: 185, margin: '0 auto' }}>
             <CardMedia
               component="img"
               width="164"

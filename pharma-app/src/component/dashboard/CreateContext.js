@@ -82,6 +82,7 @@ const CreateContext = () => {
               name="context"
               placeholder="Insert the new business context here"
               fullWidth
+              size="small"
               sx={{ mr: '1rem', mt: 2, mb: 2 }}
             />
             <LoadingButton
