@@ -62,7 +62,7 @@ export const role = [
     value: 'producer',
   },
   {
-    value: 'logistic-Storage',
+    value: 'logistic',
   },
   {
     value: 'distributor',
