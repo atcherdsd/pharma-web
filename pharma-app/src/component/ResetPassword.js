@@ -26,6 +26,7 @@ export default function ResetPassword() {
     const data = new FormData(event.currentTarget);
     const password = data.get('password');
     const confirmPassword = data.get('confirm-password');
+    setDisabled(true);
     if (password === confirmPassword) {
       setCheckPassword(true);
       try {

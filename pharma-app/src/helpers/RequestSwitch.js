@@ -1,5 +1,6 @@
 import RequestAPI from '../services/auth.api.service';
 import ContextAPI from '../services/context.api.service';
+import ResourceAPI from '../services/resource.api.service';
 import { enumReqType } from '../helpers/EnumReqType';
 export default function requestSwitch(body, type) {
   switch (type) {
@@ -15,5 +16,7 @@ export default function requestSwitch(body, type) {
       return ContextAPI.getContext();
     case enumReqType.postContext:
       return ContextAPI.postContext(body);
+    case enumReqType.getCountry:
+      return ResourceAPI.getCountry();
   }
 }

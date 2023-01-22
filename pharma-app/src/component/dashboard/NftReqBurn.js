@@ -1,28 +1,28 @@
+import { useState, useEffect, useRef } from 'react';
 import Paper from '@mui/material/Paper';
 import { Box } from '@mui/material';
 import CustomerSelect from '../CustomerSelect';
-import { useRef, useState, useEffect } from 'react';
-import { nftBurningCustomerRoles } from '../../helpers/customerRoles';
+import Title from '../Title';
+import SelectProductName from '../SelectProductName';
+import { nftRequestBurnCustomerRoles } from '../../helpers/customerRoles';
 import useAlert from '../../hooks/useAlert';
 import BoxAPI from '../../services/box.api.service';
 import LotAPI from '../../services/lot.api.service';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import SelectProductName from '../SelectProductName';
-import Title from '../Title';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
-const NftBurning = () => {
+const NftReqBurn = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
   const form = useRef(null);
   const [disabled, setDisabled] = useState(false);
-  const [contextId, setContextId] = useState(1);
-  const [customerRole, setCustomerRole] = useState(nftBurningCustomerRoles[0]);
-  const [customerName, setCustomerName] = useState('');
   const [customerId, setCustomerId] = useState('');
+  const [contextId, setContextId] = useState(1);
+  const [customerRole, setCustomerRole] = useState(nftRequestBurnCustomerRoles[0]);
+  const [customerName, setCustomerName] = useState('');
   const [lot, setLot] = useState('');
   const [hash, setHash] = useState('');
   const [productName, setProductName] = useState([]);
@@ -67,10 +67,9 @@ const NftBurning = () => {
         });
     }
   }, [customerId, showErrorAlert]);
-
   useEffect(() => {
     if (lot) {
-      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId, 2)
+      BoxAPI.getBoxByLotAndCustomerID(lot.id, customerId, 1)
         .then((result) => {
           setBox(result.items);
         })
@@ -93,8 +92,8 @@ const NftBurning = () => {
     setDisabled(true);
     if (hash) {
       try {
-        await BoxAPI.burn(hash.hash, hash.customer);
-        showSuccessAlert('NFT successfully burned');
+        await BoxAPI.freeze(hash.hash, hash.customer);
+        showSuccessAlert('Request successfully sent');
         cleanUp();
       } catch (err) {
         showErrorAlert(err.response.data.message);
@@ -123,7 +122,7 @@ const NftBurning = () => {
           onRoleChange={onRoleChange}
           onCustomerSelect={onCustomerSelect}
           customerName={customerName}
-          roles={nftBurningCustomerRoles}
+          roles={nftRequestBurnCustomerRoles}
         />
         <Title sx={{ mb: 1, mt: 2 }}>Select a specific NFT</Title>
         <SelectProductName
@@ -155,11 +154,11 @@ const NftBurning = () => {
           variant="contained"
           disabled={disabled}
         >
-          <span>BURN</span>
+          <span>REQUEST NFT BURN</span>
         </LoadingButton>
       </Box>
     </Paper>
   );
 };
 
-export default NftBurning;
+export default NftReqBurn;

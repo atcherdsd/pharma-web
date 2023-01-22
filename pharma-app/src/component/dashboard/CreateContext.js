@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import ContextTable from '../ContextTable';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
 import useAlert from '../../hooks/useAlert';
 import ContextAPI from '../../services/context.api.service';
+import ContextTable from '../ContextTable';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
+import transformToUpperCase from '../../helpers/transformToUpperCase';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SendIcon from '@mui/icons-material/Send';
 
 const CreateContext = () => {
   const [disabled, setDisabled] = useState(false);
@@ -30,7 +32,7 @@ const CreateContext = () => {
     setDisabled(true);
 
     const data = new FormData(event.currentTarget);
-    const context = data.get('context');
+    const context = transformToUpperCase(data.get('context'));
 
     try {
       await ContextAPI.postContext(context);
@@ -53,7 +55,7 @@ const CreateContext = () => {
           {disabled ? (
             <CircularProgress />
           ) : (
-            <ContextTable contexts={contexts} isSuccsessReq={true} count={count} isError={false} />
+            <ContextTable contexts={contexts} isSuccsess={true} count={count} isError={false} />
           )}
         </Paper>
       </Grid>
@@ -80,17 +82,21 @@ const CreateContext = () => {
               name="context"
               placeholder="Insert the new business context here"
               fullWidth
+              size="small"
               sx={{ mr: '1rem', mt: 2, mb: 2 }}
             />
-            <Button
+            <LoadingButton
+              sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: { xs: '100%', sm: '2rem' } }}
               type="submit"
               fullWidth
+              endIcon={<SendIcon />}
+              loading={disabled}
+              loadingPosition="end"
               variant="contained"
-              disabled={disabled ? true : false}
-              sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: { xs: '100%', sm: '2rem' } }}
+              disabled={disabled}
             >
-              Add
-            </Button>
+              <span>Add</span>
+            </LoadingButton>
           </Box>
         </Paper>
       </Grid>

@@ -28,6 +28,7 @@ export default function RestorePassword() {
     } catch (err) {
       showErrorAlert(err.response.data.message);
     }
+
     setDisabled(false);
   };
 

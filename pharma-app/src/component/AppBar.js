@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Menu, MenuItem } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
-import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useAlert from '../hooks/useAlert';
 import removeUserDataFromLS from '../helpers/utils';
 import AuthAPIService from '../services/new.auth.api.service';
+import { paths } from '../helpers/routes';
+import menuItemNames from '../helpers/menuItemNames';
 
 const drawerWidth = 240;
 
@@ -37,6 +37,7 @@ const CustomAppBar = styled(MuiAppBar, {
 export default function AppBar({ open, toggleDrawer }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { showSuccessAlert, showErrorAlert } = useAlert();
 
   const handleMenu = (event) => {
@@ -79,18 +80,14 @@ export default function AppBar({ open, toggleDrawer }) {
           <MenuIcon />
         </IconButton>
         <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          Dashboard
+          {location.pathname.includes(paths.addContext) && menuItemNames.addAContext}
+          {location.pathname.includes(paths.addCustomer) && menuItemNames.newCustomer}
+          {location.pathname.includes(paths.nftCreation) && menuItemNames.nftCreation}
+          {location.pathname.includes(paths.transferIngredient) && menuItemNames.transferIngredient}
+          {location.pathname.includes(paths.nftSelling) && menuItemNames.nftSelling}
+          {location.pathname.includes(paths.nftReqBurn) && menuItemNames.nftRequestBurn}
+          {location.pathname.includes(paths.nftBurning) && menuItemNames.nftBurning}
         </Typography>
-        <IconButton
-          color="inherit"
-          sx={{
-            marginLeft: '12px',
-          }}
-        >
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
         <IconButton
           sx={{
             marginLeft: '12px',

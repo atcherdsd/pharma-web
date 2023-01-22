@@ -7,6 +7,7 @@ import List from '@mui/material/List';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import MenuItem from './MenuItem';
+import menuItemNames from '../../helpers/menuItemNames';
 
 const drawerWidth = 240;
 
@@ -53,11 +54,37 @@ export default function Menu({ open, toggleDrawer }) {
       </Toolbar>
       <Divider />
       <List component="nav">
-        <MenuItem text="Add a context" icon={<DashboardIcon />} route="/dashboard/add-context" />
-        <MenuItem text="New customer" icon={<DashboardIcon />} route="/dashboard/add-customer" />
-        <MenuItem text="NFT creation" icon={<DashboardIcon />} route="/dashboard/nft-creation" />
+        <MenuItem
+          text={menuItemNames.addAContext}
+          icon={<DashboardIcon />}
+          route="/dashboard/add-context"
+        />
+        <MenuItem
+          text={menuItemNames.newCustomer}
+          icon={<DashboardIcon />}
+          route="/dashboard/add-customer"
+        />
+        <MenuItem
+          text={menuItemNames.nftCreation}
+          icon={<DashboardIcon />}
+          route="/dashboard/nft-creation"
+        />
+        <MenuItem
+          text={menuItemNames.transferIngredient}
+          icon={<DashboardIcon />}
+          route="/dashboard/transfer-ingredient"
+        />
         <MenuItem text="NFT selling" icon={<DashboardIcon />} route="/dashboard/nft-selling" />
-        <MenuItem text="NFT burning" icon={<DashboardIcon />} route="/dashboard/nft-burning" />
+        <MenuItem
+          text={menuItemNames.nftRequestBurn}
+          icon={<DashboardIcon />}
+          route="/dashboard/nft-req-burn"
+        />
+        <MenuItem
+          text={menuItemNames.nftBurning}
+          icon={<DashboardIcon />}
+          route="/dashboard/nft-burning"
+        />
       </List>
     </CustomDrawer>
   );
