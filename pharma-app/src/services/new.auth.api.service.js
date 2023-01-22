@@ -8,6 +8,8 @@ export default class AuthAPIService {
 
   static reqToLogin = (email, password) => authApiClient.post('/auth/login', { email, password });
 
+  static reqToLogout = (refreshToken) => authApiClient.post('/auth/logout', { refreshToken });
+
   static refreshAccessToken = (refreshToken) =>
     authApiClient.post('/auth/refresh-tokens', { refreshToken });
 }

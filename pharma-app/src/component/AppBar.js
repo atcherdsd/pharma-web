@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Menu, MenuItem } from '@mui/material';
@@ -10,8 +10,7 @@ import Typography from '@mui/material/Typography';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAlert from '../hooks/useAlert';
 import removeUserDataFromLS from '../helpers/utils';
-import useFetchReducer from '../hooks/FetchReducer';
-import { enumReqType } from '../helpers/EnumReqType';
+import AuthAPIService from '../services/new.auth.api.service';
 import { paths } from '../helpers/routes';
 import menuItemNames from '../helpers/menuItemNames';
 
@@ -39,10 +38,7 @@ export default function AppBar({ open, toggleDrawer }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const [dataForBody, setDataForBody] = useState({ content: '', body: { refreshToken: '' } });
-  const { isSuccsessReq } = useFetchReducer(dataForBody, enumReqType.logout);
-  const { setOpen } = useAlert();
+  const { showSuccessAlert, showErrorAlert } = useAlert();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,19 +46,19 @@ export default function AppBar({ open, toggleDrawer }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleLogout = () => {
+  const handleLogout = async () => {
     const refreshToken = localStorage.getItem('refreshToken');
-    setDataForBody({ content: refreshToken, body: { refreshToken } });
-    removeUserDataFromLS();
-    handleClose();
-    setOpen(true);
-  };
-
-  useEffect(() => {
-    if (isSuccsessReq) {
+    try {
+      await AuthAPIService.reqToLogout(refreshToken);
+      showSuccessAlert('You are logged out');
+      removeUserDataFromLS();
       navigate('/');
+    } catch (err) {
+      showErrorAlert(err.response.data.message);
+    } finally {
+      handleClose();
     }
-  }, [isSuccsessReq]);
+  };
 
   return (
     <CustomAppBar position="absolute" open={open}>
