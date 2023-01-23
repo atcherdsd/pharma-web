@@ -15,6 +15,7 @@ const StyledTableCell = styled(TableCell)(() => ({
   },
   [`&.${tableCellClasses.body}:nth-of-type(even)`]: {
     textAlign: 'right',
+    whiteSpace: 'nowrap',
   },
 }));
 
@@ -95,8 +96,7 @@ export default function NftCreationTable({
       <Table
         size="small"
         sx={{
-          border: '1px solid grey',
-          borderRadius: '5px',
+          border: '1px solid #c0c0c0',
           borderCollapse: 'inherit',
           mt: 2,
           mb: 3,

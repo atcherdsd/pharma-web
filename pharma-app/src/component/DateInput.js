@@ -1,13 +1,14 @@
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Typography } from '@mui/material';
 
 export default function DateInput({ customerRole, roles, handleExpiringDateChange, expiringDate }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DesktopDatePicker
         label="Date input"
         value={expiringDate}
         onChange={handleExpiringDateChange}
@@ -17,7 +18,7 @@ export default function DateInput({ customerRole, roles, handleExpiringDateChang
               {customerRole === roles[0] && 'NFT Basic Ingredients Expiring'}
               {(customerRole === roles[1] || customerRole === roles[2]) && 'NFT Product Expiring'}
             </Typography>
-            <input ref={inputRef} {...inputProps} />
+            <TextField size={'small'} ref={inputRef} {...inputProps} />
             {InputProps?.endAdornment}
           </Box>
         )}

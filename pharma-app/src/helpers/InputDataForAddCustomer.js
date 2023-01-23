@@ -56,18 +56,23 @@ export const inputData = [
 
 export const role = [
   {
+    name: 'Supplier',
     value: 'supplier',
   },
   {
+    name: 'Producer',
     value: 'producer',
   },
   {
-    value: 'logistic',
+    name: 'Logistics',
+    value: 'logistics',
   },
   {
+    name: 'Distributor',
     value: 'distributor',
   },
   {
+    name: 'Reseller',
     value: 'reseller',
   },
 ];

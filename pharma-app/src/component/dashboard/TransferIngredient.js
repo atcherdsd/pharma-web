@@ -8,7 +8,6 @@ import CustomerAPI from '../../services/customer.api.service';
 import NftCreationTable from '../NftCreationTable';
 import { Box, MenuItem, TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
 
 const TransferIngredient = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -121,7 +120,7 @@ const TransferIngredient = () => {
   }
 
   return (
-    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+    <Paper sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
       <Box
         component="form"
         noValidate={false}
@@ -188,9 +187,7 @@ const TransferIngredient = () => {
           sx={{ mt: 2 }}
           type="submit"
           fullWidth
-          endIcon={<SendIcon />}
           loading={disabled}
-          loadingPosition="end"
           variant="contained"
           disabled={disabled}
         >

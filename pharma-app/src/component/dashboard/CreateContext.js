@@ -6,10 +6,8 @@ import ContextAPI from '../../services/context.api.service';
 import ContextTable from '../ContextTable';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import CircularProgress from '@mui/material/CircularProgress';
 import transformToUpperCase from '../../helpers/transformToUpperCase';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
 
 const CreateContext = () => {
   const [disabled, setDisabled] = useState(false);
@@ -49,55 +47,51 @@ const CreateContext = () => {
 
   return (
     <Grid container spacing={3}>
-      {/* Current context */}
       <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          {disabled ? (
-            <CircularProgress />
-          ) : (
-            <ContextTable contexts={contexts} isSuccsess={true} count={count} isError={false} />
-          )}
-        </Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper sx={{ p: 1 }}>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate={false}
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexDirection: {
-                xs: 'column',
-                sm: 'row',
-                md: 'row',
-              },
-            }}
-          >
-            <TextField
-              margin="normal"
-              required
-              id="context"
-              name="context"
-              placeholder="Insert the new business context here"
-              fullWidth
-              size="small"
-              sx={{ mr: '1rem', mt: 2, mb: 2 }}
-            />
-            <LoadingButton
-              sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 }, width: { xs: '100%', sm: '2rem' } }}
-              type="submit"
-              fullWidth
-              endIcon={<SendIcon />}
-              loading={disabled}
-              loadingPosition="end"
-              variant="contained"
-              disabled={disabled}
-            >
-              <span>Add</span>
-            </LoadingButton>
-          </Box>
+        <Paper sx={{ p: 4 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={0} md={2}></Grid>
+            <Grid item xs={12} md={8}>
+              <Grid sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <ContextTable contexts={contexts} isSuccsess={true} count={count} isError={false} />
+              </Grid>
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate={false}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  flexDirection: {
+                    xs: 'column',
+                    sm: 'row',
+                    md: 'row',
+                  },
+                }}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  id="context"
+                  name="context"
+                  placeholder="Insert the new business context here"
+                  fullWidth
+                  size="small"
+                  disabled={disabled}
+                  sx={{ mr: '1rem', mt: 2, mb: 2 }}
+                />
+                <LoadingButton
+                  sx={{ mt: { xs: 1, sm: 2 }, mb: { xs: 1, sm: 2 } }}
+                  type="submit"
+                  loading={disabled}
+                  variant="contained"
+                  disabled={disabled}
+                >
+                  <span>Add</span>
+                </LoadingButton>
+              </Box>
+            </Grid>
+          </Grid>
         </Paper>
       </Grid>
     </Grid>

@@ -23,7 +23,6 @@ import { styled } from '@mui/material/styles';
 import { headCellsNftTableData } from '../../helpers/nftTableData';
 import { customerTableColors } from '../../helpers/customerTableColors';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -201,7 +200,7 @@ const NftSelling = () => {
   }
 
   return (
-    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+    <Paper sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
       <Box
         component="form"
         noValidate={false}
@@ -294,9 +293,7 @@ const NftSelling = () => {
           sx={{ mt: 2 }}
           type="submit"
           fullWidth
-          endIcon={<SendIcon />}
           loading={disabled}
-          loadingPosition="end"
           variant="contained"
           disabled={disabled}
         >
