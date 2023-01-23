@@ -8,10 +8,8 @@ import { nftRequestBurnCustomerRoles } from '../../helpers/customerRoles';
 import useAlert from '../../hooks/useAlert';
 import BoxAPI from '../../services/box.api.service';
 import LotAPI from '../../services/lot.api.service';
-import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -106,7 +104,7 @@ const NftReqBurn = () => {
   }
 
   return (
-    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+    <Paper sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
       <Box
         component="form"
         noValidate={false}
@@ -134,7 +132,7 @@ const NftReqBurn = () => {
           loadingProduct={loadingProduct}
         ></SelectProductName>
         {hash && (
-          <Card sx={{ maxWidth: 185, margin: '0 auto' }}>
+          <Box sx={{ maxWidth: 200, margin: '0 auto' }} padding={2}>
             <CardMedia
               component="img"
               width="164"
@@ -142,20 +140,20 @@ const NftReqBurn = () => {
               image={`${baseURL}/box/${hash.hash}/qr`}
               alt="QR"
             />
-          </Card>
+          </Box>
         )}
-        <LoadingButton
-          sx={{ mt: 1 }}
-          type="submit"
-          fullWidth
-          endIcon={<SendIcon />}
-          loading={disabled}
-          loadingPosition="end"
-          variant="contained"
-          disabled={disabled}
-        >
-          <span>REQUEST NFT BURN</span>
-        </LoadingButton>
+        <Box textAlign="center">
+          <LoadingButton
+            sx={{ mt: 1 }}
+            type="submit"
+            fullWidth
+            loading={disabled}
+            variant="contained"
+            disabled={disabled}
+          >
+            <span>REQUEST NFT BURN</span>
+          </LoadingButton>
+        </Box>
       </Box>
     </Paper>
   );

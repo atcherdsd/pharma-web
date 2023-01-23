@@ -10,7 +10,6 @@ import LotAPI from '../../services/lot.api.service';
 import BoxAPI from '../../services/box.api.service';
 import createLotData from '../../helpers/createLotData';
 import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
 
 const NftCreation = () => {
   const { showSuccessAlert, showErrorAlert } = useAlert();
@@ -165,7 +164,7 @@ const NftCreation = () => {
   }
 
   return (
-    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+    <Paper sx={{ p: 4, display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
       <Box
         component="form"
         noValidate={false}
@@ -209,9 +208,7 @@ const NftCreation = () => {
           sx={{ mt: 1 }}
           type="submit"
           fullWidth
-          endIcon={<SendIcon />}
           loading={disabled}
-          loadingPosition="end"
           variant="contained"
           disabled={disabled}
         >

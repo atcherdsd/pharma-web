@@ -1,7 +1,7 @@
 export const headCellsNftTableData = [
   {
     id: 'name',
-    label: 'Company Name',
+    label: 'Company',
   },
   {
     id: 'country',
@@ -14,10 +14,10 @@ export const headCellsNftTableData = [
   {
     id: 'phoneNumber',
     numeric: true,
-    label: 'Phone contact',
+    label: 'Phone',
   },
   {
     id: 'walletAddress',
-    label: 'Wallet Address',
+    label: 'Wallet',
   },
 ];
