@@ -69,6 +69,6 @@ apiClient.interceptors.response.use(
   (error) => Promise.reject(error)
 );
 
-const navigateToLogin = () => (window.location.href = '/');
+const navigateToLogin = () => {}; //(window.location.href = '/');
 
 export default apiClient;
